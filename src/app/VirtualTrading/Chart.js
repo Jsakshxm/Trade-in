@@ -50,15 +50,14 @@ const Chart = () => {
 
     fetchUser();
   }, []);
-  const handlesell= async() => {
+  const handlesell= async({id}) => {
     console.log("Selling");
     // Add your sell logic here
     try {
       const { data, error } = await supabase
         .from("Trades")
         .update({ status: "sell" })
-        .eq("email", userEmail)
-        .eq("status", "buy");
+        .eq("id", id);
     } catch (error) {
       alert("Error selling stock");
       console.log(error);
@@ -345,7 +344,7 @@ const Chart = () => {
           <ul>
           {Trades.map((trade) => (
             <li className="border-b p-2">
-                {trade.Symbol} - {trade.Quantity} - {trade.buyprice} - {trade.status==="buy"?<button onClick={()=>{setdata();}} className="bg-blue-500 px-4"> Sell</button>:"Brought"}
+                {trade.Symbol} - {trade.Quantity} - {trade.buyprice} - {trade.status==="buy"?<button onClick={()=>{hanfe}} className="bg-blue-500 px-4"> Sell</button>:"Already Sold"}
             </li>
           ))}
           </ul>

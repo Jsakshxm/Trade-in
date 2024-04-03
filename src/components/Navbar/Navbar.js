@@ -4,7 +4,11 @@ import Link from "next/link";
 import { useState } from "react";
 import { useEffect } from "react";
 import supabase from "../../app/supabase";
-import Image from "next/image";
+// import Image from "next/image";
+// import { useRouter } from "next/router";
+// import { useUser } from "@auth0/nextjs-auth0";
+// import modeswitch from "../modeswitch/modeswitch";
+import CustomizedSwitches from "../modeswitch/modeswitch";
 
 const Navbar = () => {
   const [userEmail, setUserEmail] = useState(null);
@@ -69,7 +73,7 @@ const Navbar = () => {
               </div>
             </>
           ) : (
-            <div className="dark:text-slate-400 text-white p-2 space-x-2 flex">
+            <div className="dark:text-slate-400 text-white p-2 space-x-2 flex items-center justify-center">
               <div className="hover:text-white">
                 <Link href="/Balance">Z_balance</Link>
               </div>
@@ -79,6 +83,9 @@ const Navbar = () => {
               <div className="hover:text-white">
                 {" "}
                 <Link href="/Login">Login</Link>
+              </div>
+              <div>
+                <CustomizedSwitches />
               </div>
             </div>
           )}

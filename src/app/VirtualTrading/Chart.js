@@ -353,7 +353,7 @@ const Chart = () => {
           <ul>
           {Trades.map((trade) => (
             <li className="border-b p-2">
-                {trade.Symbol} - {trade.Quantity} - {trade.buyprice} - {trade.status==="buy"?<button onClick={()=>{hanfe}} className="bg-blue-500 px-4"> Sell</button>:"Already Sold"}
+                {trade.Symbol} - {trade.Quantity} - {trade.buyprice} - {trade.status==="buy"?<button onClick={(trade.id)=>{handlesell();}} className="bg-blue-500 px-4"> Sell</button>:"Already Sold"}
             </li>
           ))}
           </ul>

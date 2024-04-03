@@ -166,7 +166,7 @@ const page = () => {
                   )}
                 </div>
                 {register && (
-                  <div className="my-2 relative bg-white flex justify-center items-center">
+                  < className="my-2 relative bg-white flex justify-center items-center">
                     {/* {setpassword1 &&} */}
                     <input
                       className=" p-2 grow"
@@ -189,6 +189,7 @@ const page = () => {
                         onClick={passwordtoggle}
                       ></i>
                     )}
+                     <div className="my-2 relative bg-white flex justify-center items-center">
                     <input
                       className=" p-2 grow"
                       type={passwordt}

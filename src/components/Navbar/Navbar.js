@@ -12,22 +12,21 @@ import CustomizedSwitches from "../modeswitch/modeswitch";
 import { AppContext } from "../AppContext/AppContext";
 import { useContext } from "react";
 
-
 const Navbar = () => {
   const [userEmail, setUserEmail] = useState(null);
   const [meuopen, setmenuopen] = useState(false);
-  const {theme,settheme}=useContext(AppContext);
+  const { theme, settheme } = useContext(AppContext);
 
   useEffect(() => {
     const fetchUser = async () => {
-      // const {
-      //   data: { user },
-      // } = await supabase.auth.getUser();
-      // if (user) {
-      //   setUserEmail(user.email);
-      // } else {
-      //   setUserEmail(null);
-      // }
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        setUserEmail(user.email);
+      } else {
+        setUserEmail(null);
+      }
     };
 
     fetchUser();
@@ -47,26 +46,32 @@ const Navbar = () => {
   };
   return (
     <>
-      <header className={`fixed flex w-full justify-between items-center px-10 lg:px-24 py-4 lg:py-8  dark:bg-slate-800 text-${theme}txt ${theme==="dark"?"bg-gradient-to-r  from-40% from-slate-800 via-slate-700 to-60% to-slate-800 ":" bg-gradient-to-r  from-[#baecee] via-yellow-100 to-[#baecee] shadow-lg"} bg-opacity-50 z-[20]`}>
+      <header
+        className={`fixed flex w-full justify-between items-center px-10 lg:px-24 py-4 lg:py-8  dark:bg-slate-800 text-${theme}txt ${
+          theme === "dark"
+            ? "bg-gradient-to-r  from-40% from-slate-800 via-slate-700 to-60% to-slate-800 "
+            : " bg-gradient-to-r  from-[#baecee] via-yellow-100 to-[#baecee] shadow-lg"
+        } bg-opacity-50 z-[20]`}
+      >
         <Link href="/" className="font-concert-one text-xl lg:text-2xl">
           Tradein
         </Link>
         <ul className="hidden lg:flex space-x-5 ">
-          <li className="hover:text-yellow-300 p-2">
+        <li className="hover:text-yellow-300 p-2">
             <Link href="/Tutorial">Tutorial</Link>
           </li>
-          <li className="hover:text-emerald-300 p-2">
+          <li className="hover:text-yellow-300 p-2">
             {" "}
             <Link href="/VirtualTrading">VirtualTrading</Link>
           </li>
-          <li className="hover:text-emerald-300 p-2">
-            <Link href="/SmsAnalysis"></Link>
-          </li>
-          {/* <li className="">
-            <Link href="/FraudDetection">FraudDetection</Link>
-          </li> */}
         </ul>
-        <div className="hidden lg:block">
+      <div className="hidden lg:flex items-center space-x-2 ">
+            <div className={`hover:text-${theme}th  `}>
+                <Link href="/Balance">Z_balance</Link>
+              </div>
+              <div className="hover:text-white">
+                <Link href="/Store">Store img</Link>
+              </div>
           {userEmail ? (
             <>
               <div
@@ -77,22 +82,23 @@ const Navbar = () => {
               </div>
             </>
           ) : (
-            <div className="dark:text-slate-400 p-2 space-x-2 flex items-center justify-center">
-              <div className={`hover:text-${theme}th`}>
-                <Link href="/Balance">Z_balance</Link>
-              </div>
+            <div className="p-2 space-x-2 flex items-center justify-center">
               <div className="hover:text-white">
-                <Link href="/Store">Store img</Link>
-              </div>
-              <div className="hover:text-white">
-                {" "}
-                <Link href="/Login">Login</Link>
-              </div>
-              <div>
-                <CustomizedSwitches onChange={()=>{if(theme==="dark"){settheme("light");}else{settheme("dark");}}}/>
+                {<Link href="/Login">Login</Link>}
               </div>
             </div>
           )}
+              <div>
+                <CustomizedSwitches
+                  onChange={() => {
+                    if (theme === "dark") {
+                      settheme("light");
+                    } else {
+                      settheme("dark");
+                    }
+                  }}
+                />
+              </div>
         </div>
 
         <div onClick={handlemenu} className="lg:hidden text-2xl p-2">
@@ -135,7 +141,7 @@ const Navbar = () => {
               meuopen ? "" : "-translate-x-full"
             }`}
           >
-            <Link href="/CryptoWalletChecker">Crypto Wallets</Link>
+            <Link href="/Balance">Crypto Wallets</Link>
           </li>
           <li
             className={`hover:text-yellow-300 p-2  transition duration-[900ms] ${

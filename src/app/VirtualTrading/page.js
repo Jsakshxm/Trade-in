@@ -5,7 +5,7 @@ const page = () => {
   return (
     <div>
       <Navbar></Navbar>
-      <div className='pt-52'>
+      <div className='pt-36'>
       <Chart></Chart>
       </div>
     </div>

@@ -31,6 +31,15 @@ const Chart = () => {
     }
   };
   useEffect(() => {
+    const fetchData = async () => {
+        let { data: Trades, error } = await supabase.from("Trades").select("*").eq("email", userEmail);
+        if (Trades) {
+          setTrades(Trades);
+          console.log(Trades);
+        } else {
+          console.log(error);
+        }
+      };
     fetchData();
   }, []);
   useEffect(() => {

@@ -1,7 +1,7 @@
 "use client";
 
 import { LineStyle, TickMarkType, createChart } from "lightweight-charts";
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import axios from "axios";
 // import "../App.css"
 import { AppContext } from "@/components/AppContext/AppContext";
@@ -13,7 +13,7 @@ const Chart = () => {
   const [candlePrice, setCandlePrice] = useState(null);
   const [linePrice, setLinePrice] = useState(null);
   const { theme } = useContext(AppContext);
-  const [zeta, setzeta] = useState(100000);
+  const [zeta, setzeta] = useState();
 
   const initialData = [];
   const [quantity, setQuantity] = useState(1); // State to hold the quantity to buy
@@ -22,7 +22,10 @@ const Chart = () => {
   const [userEmail, setUserEmail] = useState(null);
   const [Trades, setTrades] = useState([]);
   const fetchData = async () => {
-    let { data: Trades, error } = await supabase.from("Trades").select("*").eq("email", userEmail);
+    let { data: Trades, error } = await supabase
+      .from("Trades")
+      .select("*")
+      .eq("email", userEmail);
     if (Trades) {
       setTrades(Trades);
       console.log(Trades);
@@ -32,15 +35,19 @@ const Chart = () => {
   };
   useEffect(() => {
     const fetchData = async () => {
-        let { data: Trades, error } = await supabase.from("Trades").select("*").eq("email", userEmail);
-        if (Trades) {
-          setTrades(Trades);
-          console.log(Trades);
-        } else {
-          console.log(error);
-        }
-      };
+      let { data: Trades, error } = await supabase
+        .from("Trades")
+        .select("*")
+        .eq("email", userEmail);
+      if (Trades) {
+        setTrades(Trades);
+        console.log(Trades);
+      } else {
+        console.log(error);
+      }
+    };
     fetchData();
+    console.log(zeta);
   }, [currentPrice]);
 
   useEffect(() => {
@@ -53,7 +60,6 @@ const Chart = () => {
       } else {
         setUserEmail(null);
       }
-
     };
     fetchUser();
   }, []);
@@ -61,27 +67,69 @@ const Chart = () => {
   const handlesell = async (id) => {
     try {
       const { data, error } = await supabase
-        .from('Trades')
-        .update({ status: 'sell' })
-        .eq('id', id)
+        .from("Trades")
+        .update({ status: "sell" })
+        .eq("id", id)
         .single(); // Assuming id is unique, use single() to update only one row
-  
       if (error) {
         throw error;
       }
-  
+
       console.log('Successfully updated status to "sell"', data);
+
+      // Calculate the new balance after selling
+      let anna = zeta + (quantity * currentPrice); // Assuming 'quantity' is available
+      console.log(anna);
+
+      // Update the balance in UserData table
+      const { data2, error2 } = await supabase
+        .from("UserData")
+        .update({ balance: anna })
+        .eq("email", userEmail)
+        .single();
+
+      if (error2) {
+        throw error2;
+      }
+
     } catch (error) {
-      console.error('Error selling stock', error);
-      alert('Error selling stock');
+      console.error("Error selling stock", error);
+      alert("Error selling stock");
     }
     
     fetchData();
-  }
-  
-  const handleBuy = async () => {
+};
+const fetchbalace = async () => {
+    let { data: UserData, error } = await supabase
+    .from('UserData')
+    .select('balance')
+    .eq('email', userEmail);
+    setzeta(UserData.balance); 
+    console.log(zeta);
+          alert(zeta);
+        }
+
+useEffect(() => {
+const fetchbalace = async () => {
+let { data: UserData, error } = await supabase
+.from('UserData')
+.select('balance')
+.eq('email', userEmail);
+setzeta(UserData.balance); 
+console.log(zeta);
+      alert(zeta);
+    }
+    fetchbalace();
+},[])
+const handleBuy = async () => {
+    fetchbalace(); // Fetch balance before buying
     console.log(`Buying ${quantity} units at price ${currentPrice}`);
-    // Add your buy logic here
+    let { data: UserData, error } = await supabase
+    .from("UserData")
+    .select("balance");
+  setzeta(UserData[0].balance); // Initialize zeta with balance
+  console.log(zeta);
+
     if (zeta >= quantity * currentPrice) {
       try {
         const { data, error } = await supabase
@@ -98,16 +146,33 @@ const Chart = () => {
             },
           ])
           .select();
+        
+        // Deduct purchase amount from balance
+        let c = quantity * currentPrice;
+        setzeta(prevZeta => prevZeta - c); // Use callback function to ensure correct state update
+
+        // Update balance in UserData table
+        const { data: updatedUserData, error: updateError } = await supabase
+          .from("UserData")
+          .update('balance', zeta)
+          .select(); // Assuming there's only one row for user data
+        
+        if (updateError) {
+          throw updateError;
+        }
+
       } catch (error) {
         alert("Error buying stock");
         console.log(error);
       }
-      setzeta(zeta - quantity * currentPrice);
+      
     } else {
       alert("Cannot buy less coin");
     }
-    fetchData();
-  };
+};
+
+
+
   useEffect(() => {
     axios(
       `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1m&limit=5`
@@ -363,15 +428,30 @@ const Chart = () => {
             <div>profit</div>
           </div>
           <ul className="">
-          {Trades.map((trade) => (
-            <li className="border-b p-2 grid grid-cols-5">
+            {Trades.map((trade) => (
+              <li className="border-b p-2 grid grid-cols-5">
                 <div>{trade.Symbol}</div>
-                 <div>{trade.Quantity}</div> 
-                 <div>{trade.buyprice}</div> 
-                 <div>{Math.round((trade.buyprice-currentPrice) * 100) / 100}</div>
-                 <div> {trade.status==="buy" ? <button onClick={() => handlesell(trade.id)} className="bg-blue-500 px-4"> Sell</button> : "Already Sold"}</div>   
-            </li>
-          ))}
+                <div>{trade.Quantity}</div>
+                <div>{trade.buyprice}</div>
+                <div>
+                  {Math.round((trade.buyprice - currentPrice) * 100) / 100}
+                </div>
+                <div>
+                  {" "}
+                  {trade.status === "buy" ? (
+                    <button
+                      onClick={() => handlesell(trade.id)}
+                      className="bg-blue-500 px-4"
+                    >
+                      {" "}
+                      Sell
+                    </button>
+                  ) : (
+                    "Already Sold"
+                  )}
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

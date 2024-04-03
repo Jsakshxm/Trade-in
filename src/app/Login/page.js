@@ -79,7 +79,6 @@ const page = () => {
         console.log(error);
       } else {
         alert("Verification link sent to your email");
-        console.log(data);
         const { data, error } = await supabase
           .from("UserData")
           .insert([{ email: email, balance: 2000000, Name: name }])
@@ -166,42 +165,44 @@ const page = () => {
                   )}
                 </div>
                 {register && (
-                  <div className="my-2 relative bg-white flex justify-center items-center">
-                    {/* {setpassword1 &&} */}
-                    <input
-                      className=" p-2 grow"
-                      type={passwordt}
-                      name=""
-                      placeholder="Confirm Password"
-                      id=""
-                      onChange={(e) => {
-                        setpassword1(e.target.value);
-                      }}
-                    />
-                    {passwordt == "password" ? (
-                      <i
-                        className="fa-solid fa-eye-slash bg-white mr-2"
-                        onClick={passwordtoggle}
-                      ></i>
-                    ) : (
-                      <i
-                        className="fa-solid fa-eye mr-2"
-                        onClick={passwordtoggle}
-                      ></i>
-                    )}
-                    
-                     <div className="my-2 relative bg-white flex justify-center items-center">
-                    <input
-                      className=" p-2 grow"
-                      type={passwordt}
-                      name=""
-                      placeholder="Your Name"
-                      id=""
-                      onChange={(e) => {
-                        setname(e.target.value);
-                      }}
-                    />
-                  </div>
+                  <>
+                    <div className="my-2 relative bg-white flex justify-center items-center">
+                      {/* {setpassword1 &&} */}
+                      <input
+                        className=" p-2 grow"
+                        type={passwordt}
+                        name=""
+                        placeholder="Confirm Password"
+                        id=""
+                        onChange={(e) => {
+                          setpassword1(e.target.value);
+                        }}
+                      />
+                      {passwordt == "password" ? (
+                        <i
+                          className="fa-solid fa-eye-slash bg-white mr-2"
+                          onClick={passwordtoggle}
+                        ></i>
+                      ) : (
+                        <i
+                          className="fa-solid fa-eye mr-2"
+                          onClick={passwordtoggle}
+                        ></i>
+                      )}
+                    </div>
+                    <div className="my-2 relative bg-white flex justify-center items-center">
+                      <input
+                        className=" p-2 grow"
+                        type="text"
+                        name=""
+                        placeholder="Your Name"
+                        id=""
+                        onChange={(e) => {
+                          setname(e.target.value);
+                        }}
+                      />
+                    </div>
+                  </>
                 )}
                 {!register && (
                   <button

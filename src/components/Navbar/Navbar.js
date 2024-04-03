@@ -11,7 +11,9 @@ import supabase from "../../app/supabase";
 import CustomizedSwitches from "../modeswitch/modeswitch";
 import { AppContext } from "../AppContext/AppContext";
 import { useContext } from "react";
+import Logo from "../../assets/logo.png";
 
+import Image from "next/image";
 const Navbar = () => {
   const [userEmail, setUserEmail] = useState(null);
   const [meuopen, setmenuopen] = useState(false);
@@ -66,8 +68,9 @@ const Navbar = () => {
           </li>
         </ul>
       <div className="hidden lg:flex items-center space-x-2 ">
-            <div className={`hover:text-${theme}th  `}>
-                <Link href="/Balance">Z_balance</Link>
+            <div className={`flex items-center`}>
+            <Image className="w-4" src={Logo} alt="Logo" />
+            1234
               </div>
               <div className="hover:text-white">
                 <Link href="/Store">Store img</Link>
@@ -177,7 +180,7 @@ const Navbar = () => {
             )}
           </div>
         </ul>
-        <div className="hidden just a trigger component text-lighttxt text-darktxt bg-dark bg-light text-darkth text-lightth from-light to-light from-dark to-dark "></div>
+        <div className="hidden just a trigger component bg-darkbg text-lighttxt text-darktxt bg-dark bg-light text-darkth text-lightth from-light to-light from-dark to-dark "></div>
       </div>
     </>
   );

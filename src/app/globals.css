@@ -31,6 +31,24 @@ body {
     text-wrap: balance;
   }
 } */
-.raj{
-  background-color: rgba(255, 255, 255, 0.451);
+.bg{
+  aspect-ratio: 2000/2000;
+  width: 100%;
+  height: 300px; 
+  background: url('../assets/wave.svg');
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.bg2{
+  aspect-ratio: 2000/2000;
+  width: 100%;
+  height: 100px; 
+  background: url('../assets/waveup.svg');
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
 }

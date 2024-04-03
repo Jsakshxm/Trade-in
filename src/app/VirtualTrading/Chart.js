@@ -41,10 +41,8 @@ const Chart = () => {
         }
       };
     fetchData();
-  }, []);
-  useEffect(() => {
-    fetchData();
-  }, [zeta]);
+  }, [currentPrice]);
+
   useEffect(() => {
     const fetchUser = async () => {
       const {
@@ -55,27 +53,32 @@ const Chart = () => {
       } else {
         setUserEmail(null);
       }
-    };
 
+    };
     fetchUser();
   }, []);
-  const handlesell= async({id}) => {
-    console.log("Selling");
-    // Add your sell logic here
-    try {
 
-const { data, error } = await supabase
-  .from('Trades')
-  .update({ status: 'sell' })
-  .eq('id', id)
-  .select()
-          
+  const handlesell = async (id) => {
+    try {
+      const { data, error } = await supabase
+        .from('Trades')
+        .update({ status: 'sell' })
+        .eq('id', id)
+        .single(); // Assuming id is unique, use single() to update only one row
+  
+      if (error) {
+        throw error;
+      }
+  
+      console.log('Successfully updated status to "sell"', data);
     } catch (error) {
-      alert("Error selling stock");
-      console.log(error);
+      console.error('Error selling stock', error);
+      alert('Error selling stock');
     }
+    
     fetchData();
   }
+  
   const handleBuy = async () => {
     console.log(`Buying ${quantity} units at price ${currentPrice}`);
     // Add your buy logic here
@@ -351,12 +354,22 @@ const { data, error } = await supabase
           <div style={{ marginRight: 10 }}>CLOSE: {candlePrice?.close}</div>
           <div>VALUE: {linePrice?.value}</div>
         </div>
-        <div className="border p-2 grow ">
+        <div className="border p-2 grow relative overflow-y-scroll">
           <h1 className="text-center">Trades</h1>
-          <ul>
+          <div className="pl-2 grid grid-cols-5">
+            <div>Symbol</div>
+            <div>Qty</div>
+            <div>Buyprice</div>
+            <div>profit</div>
+          </div>
+          <ul className="">
           {Trades.map((trade) => (
-            <li className="border-b p-2">
-                {trade.Symbol} - {trade.Quantity} - {trade.buyprice} - {trade.status==="buy" ? <button onClick={() => handlesell(trade.id)} className="bg-blue-500 px-4"> Sell</button> : "Already Sold"}
+            <li className="border-b p-2 grid grid-cols-5">
+                <div>{trade.Symbol}</div>
+                 <div>{trade.Quantity}</div> 
+                 <div>{trade.buyprice}</div> 
+                 <div>{Math.round((trade.buyprice-currentPrice) * 100) / 100}</div>
+                 <div> {trade.status==="buy" ? <button onClick={() => handlesell(trade.id)} className="bg-blue-500 px-4"> Sell</button> : "Already Sold"}</div>   
             </li>
           ))}
           </ul>

@@ -25,39 +25,37 @@ const page = () => {
   const [password, setpassword] = useState("");
   const [passwordt, setpasswordt] = useState("password");
   const [password1, setpassword1] = useState("");
-
+  const [name, setname] = useState("");
 
   const [register, setregister] = useState(false);
 
   const handleinvite = async (e) => {
     e.preventDefault();
-    let person = prompt("Please enter email id", "xyx@gmail.com");
-let { data, error } = await supabase.auth.admin.inviteUserByEmail(person)
-if(error){
-console.log(error);
-}
-if(data){
-  alert("Invited successfully");  
-}
-  }
+    let person = prompt("Please enter email id", "abc@gmail.com");
+    let { data, error } = await supabase.auth.admin.inviteUserByEmail(person);
+    if (error) {
+      console.log(error);
+    }
+    if (data) {
+      alert("Invited successfully");
+    }
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    try{
-    let { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
-    if(data){
-      setemail(data.user.email);
-      console.log(data);
-      window.location.href = "/";
-    }
-  }
-    catch (error) {
+    try {
+      let { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
+      if (data) {
+        setemail(data.user.email);
+        console.log(data);
+        window.location.href = "/";
+      }
+    } catch (error) {
       alert(error.message);
     }
-    
   };
 
   const registerbutton = (e) => {
@@ -79,10 +77,18 @@ if(data){
         // openPopup()
         alert(error.message);
         console.log(error);
-      }
-      else{
+      } else {
         alert("Verification link sent to your email");
         console.log(data);
+        const { data, error } = await supabase
+          .from("UserData")
+          .insert([{ email: email, balance: 2000000, Name: name }])
+          .select();
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("user data uploaded successfully");
+        }
       }
     } else {
       alert("Passwords do not match");
@@ -93,19 +99,18 @@ if(data){
     if (error) {
       alert(error.code);
     }
-    if(data){
+    if (data) {
       alert(data.message);
     }
   };
-  const passwordtoggle=()=>{
-    if(passwordt==="password"){
+  const passwordtoggle = () => {
+    if (passwordt === "password") {
       setpasswordt("text");
-    }
-    else{
+    } else {
       setpasswordt("password");
     }
-  }
-  
+  };
+
   // const password1toggle=()=>{
   //   if(password1t==="password"){
   //     setpassword1t("text");
@@ -114,103 +119,135 @@ if(data){
   //     setpassword1t("password");
   //   }
   // }
-  useEffect(() => {}, []);
+
+  // useEffect(() => {}, []);
 
   return (
     <>
-    <div className="grid grid-cols-1 lg:grid-cols-3 bg-gray-200 h-screen w-full justify-center items-center">
-      
-      <div className="h-52 max-w-[80%] lg:h-[500px] lg:w-[500px] ">
-      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 bg-gray-200 h-screen w-full justify-center items-center">
+        <div className="h-52 max-w-[80%] lg:h-[500px] lg:w-[500px] "></div>
 
-<div className="flex items-center justify-center w-full">
-      <div className=" bg-gray-100 w-80 rounded-lg felx felx-col items-center justify-center text-center shadow-lg p-4 top-1/2 left-1/2">
-        <h1>Login</h1>
-        <form action="">
-        <div className="flex flex-col">
-          <input
-            className="my-2 p-2"
-            type="email"
-            placeholder="Email"
-            name=""
-            id=""
-            onChange={(e) => {
-              setemail(e.target.value);
-            }}
-          />
-          <div className="my-2 relative bg-white flex justify-center items-center">
-          <input
-            className="p-2 grow"
-            type={passwordt}
-            name=""
-            placeholder="Password"
-            id=""
-            onChange={(e) => {
-              setpassword(e.target.value);
-            }}
-          />
-          {passwordt=="password"?<i className="fa-solid fa-eye-slash bg-white mr-2" onClick={passwordtoggle}></i>:<i className="fa-solid fa-eye mr-2" onClick={passwordtoggle}></i> }
-          </div>
-          {register && (
-            <div className="my-2 relative bg-white flex justify-center items-center">
-              {/* {setpassword1 &&} */}
-            <input
-              className=" p-2 grow"
-              type={passwordt}
-              name=""
-              placeholder="Confirm Password"
-              id=""
-              onChange={(e) => {
-                setpassword1(e.target.value);
-              }}
-            />
-            {passwordt=="password"?<i className="fa-solid fa-eye-slash bg-white mr-2" onClick={passwordtoggle}></i>:<i className="fa-solid fa-eye mr-2" onClick={passwordtoggle}></i> }
-           
-            </div>
-          )}
-          {!register && (
-            <button
-              className=" my-2 bg-red-400 rounded-lg p-2"
-              onClick={handleLogin}
-            >
-              Login
-            </button>
-          )}
-          <button className="my-2 bg-red-400 rounded-lg p-2"  onClick={handleinvite}>Invite friends</button>
+        <div className="flex items-center justify-center w-full">
+          <div className=" bg-gray-100 w-80 rounded-lg felx felx-col items-center justify-center text-center shadow-lg p-4 top-1/2 left-1/2">
+            <h1>Login</h1>
+            <form action="">
+              <div className="flex flex-col">
+                <input
+                  className="my-2 p-2"
+                  type="email"
+                  placeholder="Email"
+                  name=""
+                  id=""
+                  onChange={(e) => {
+                    setemail(e.target.value);
+                  }}
+                />
+                <div className="my-2 relative bg-white flex justify-center items-center">
+                  <input
+                    className="p-2 grow"
+                    type={passwordt}
+                    name=""
+                    placeholder="Password"
+                    id=""
+                    onChange={(e) => {
+                      setpassword(e.target.value);
+                    }}
+                  />
+                  {passwordt == "password" ? (
+                    <i
+                      className="fa-solid fa-eye-slash bg-white mr-2"
+                      onClick={passwordtoggle}
+                    ></i>
+                  ) : (
+                    <i
+                      className="fa-solid fa-eye mr-2"
+                      onClick={passwordtoggle}
+                    ></i>
+                  )}
+                </div>
+                {register && (
+                  <div className="my-2 relative bg-white flex justify-center items-center">
+                    {/* {setpassword1 &&} */}
+                    <input
+                      className=" p-2 grow"
+                      type={passwordt}
+                      name=""
+                      placeholder="Confirm Password"
+                      id=""
+                      onChange={(e) => {
+                        setpassword1(e.target.value);
+                      }}
+                    />
+                    {passwordt == "password" ? (
+                      <i
+                        className="fa-solid fa-eye-slash bg-white mr-2"
+                        onClick={passwordtoggle}
+                      ></i>
+                    ) : (
+                      <i
+                        className="fa-solid fa-eye mr-2"
+                        onClick={passwordtoggle}
+                      ></i>
+                    )}
+                    <input
+                      className=" p-2 grow"
+                      type={passwordt}
+                      name=""
+                      placeholder="Your Name"
+                      id=""
+                      onChange={(e) => {
+                        setname(e.target.value);
+                      }}
+                    />
+                  </div>
+                )}
+                {!register && (
+                  <button
+                    className=" my-2 bg-red-400 rounded-lg p-2"
+                    onClick={handleLogin}
+                  >
+                    Login
+                  </button>
+                )}
+                <button
+                  className="my-2 bg-red-400 rounded-lg p-2"
+                  onClick={handleinvite}
+                >
+                  Invite friends
+                </button>
 
-          {!register && (
-            <a href="" className="underline" onClick={registerbutton}>
-              Register?
-            </a>
-          )}
-          {!register && (
-            <a href="" className="underline" onClick={forgtpassword}>
-              Fogot Password?
-            </a>
-          )}
-          {register && (
-            <button
-              className=" my-2 bg-red-400 rounded-lg p-2"
-              onClick={signUpNewUser}
-            >
-              SignUp
-            </button>
-          )}
-          {register && (
-            <a href="" className="underline" onClick={registerbutton}>
-              Go back
-            </a>
-          )}
-          
-        </div>
-        </form>
-        {/* <div className=''>
+                {!register && (
+                  <a href="" className="underline" onClick={registerbutton}>
+                    Register?
+                  </a>
+                )}
+                {!register && (
+                  <a href="" className="underline" onClick={forgtpassword}>
+                    Fogot Password?
+                  </a>
+                )}
+                {register && (
+                  <button
+                    className=" my-2 bg-red-400 rounded-lg p-2"
+                    onClick={signUpNewUser}
+                  >
+                    SignUp
+                  </button>
+                )}
+                {register && (
+                  <a href="" className="underline" onClick={registerbutton}>
+                    Go back
+                  </a>
+                )}
+              </div>
+            </form>
+            {/* <div className=''>
       </div> */}
-      </div>
-      </div>
+          </div>
+        </div>
 
-      <div className="h-52 max-w-[80%] lg:h-[500px] lg:w-[500px] ">
-        {/* <Canvas>
+        <div className="h-52 max-w-[80%] lg:h-[500px] lg:w-[500px] ">
+          {/* <Canvas>
           <ambientLight />
           <Environment preset="forest" />
           <Suspense fallback={null}>
@@ -218,8 +255,8 @@ if(data){
             <Car />
           </Suspense>
         </Canvas> */}
+        </div>
       </div>
-    </div>
     </>
   );
 };

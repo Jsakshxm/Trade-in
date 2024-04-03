@@ -14,7 +14,7 @@ const Page = () => {
             key={index}
             title={topic.title}
             description={topic.description}
-            imgSrc="default-image-src.jpg"
+            imgSrc={topic.imgSrc}
             percentage={50} // Default percentage value
           />
         ))}

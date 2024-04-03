@@ -2,9 +2,10 @@ import React from 'react';
 
 const EduCard = ({ imgSrc, title, description, percentage }) => {
   return (
-    <div className="flex flex-col justify-between max-w-sm p-4 m-2 bg-white rounded-lg shadow-md">
-      <div className="flex items-center">
-        <img src={imgSrc} alt={title} className="w-16 h-16 mr-4 rounded-full" />
+    <div className="float float-col justify-between max-w p-5 m-3 bg-white rounded-lg shadow-md overflow-x-auto overflow-y-auto">
+
+      <div className="float items-center">
+        <img src={imgSrc} alt={title} className="w-28 h-28 mr-4 rounded-full allign-item-center justify-center" />
         <div>
           <h2 className="text-lg font-semibold">{title}</h2>
           <p className="text-sm text-gray-600">{description}</p>

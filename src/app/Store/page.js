@@ -1,10 +1,10 @@
 
 import React from 'react';
 import Image from 'next/image';
-import Pile from '../../components/assets/pile.jpeg';
-import Chest from '../../components/assets/chest.jpeg';
-import Bag from '../../components/assets/bag.jpeg';
-import Shower from '../../components/assets/shower.jpeg';
+import Pile from '../../assets/pile.jpeg';
+import Chest from '../../assets/chest.jpeg';
+import Bag from '../../assets/bag.jpeg';
+import Shower from '../../assets/shower.jpeg';
 
 
 

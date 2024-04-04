@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <main>
       <Navbar></Navbar>
-      <div className={`pt-32  bg-${theme}bg text-${theme}txt`} >
+      <div className={`pt-32  bg-${theme}bg  text-${theme}txt`} >
       <div className=' lg:px-24 object-cover mb-10 w-full '>
       <Swiper
         spaceBetween={30}
@@ -94,7 +94,7 @@ export default function Home() {
 
 
       <div className={`px-4 bg-${theme}bg lg:px-24 py-10 `}>
-      <Accordion>
+      <Accordion className={`bg-${theme}bg text-${theme}txt`}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1-content"
@@ -106,7 +106,7 @@ export default function Home() {
         Paper trading is a simulated form of trading that allows beginners to practice on a virtual trading platform without using real money. It's essentially a stock market simulator where you can hone your skills before stepping into the real trading world.
         </AccordionDetails>
       </Accordion>
-      <Accordion>
+      <Accordion  className={`bg-${theme}bg text-${theme}txt`}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2-content"
@@ -117,8 +117,8 @@ export default function Home() {
         <AccordionDetails>
         Yes, paper trading on TradeIn is completely free. It allows you to practice trading without any charges.
         </AccordionDetails>
-      </Accordion>
-      <Accordion defaultExpanded>
+      </Accordion >
+      <Accordion  className={`bg-${theme}bg text-${theme}txt`}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel3-content"

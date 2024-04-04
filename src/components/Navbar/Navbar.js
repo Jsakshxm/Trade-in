@@ -109,6 +109,7 @@ const Navbar = () => {
         <>
             <div className={`flex items-center`}>
             <Image className="w-4" src={Logo} alt="Logo" />
+            {zeta}
             </div>
               <div className="">
                 <Link href="/Store"><i class="fa-solid fa-store text-xl"></i></Link>
@@ -149,7 +150,7 @@ const Navbar = () => {
         </div>
       </header>
       <div
-        className={`absolute w-full dark:bg-slate-800 z-[10] transition duration-300 lg:hidden ${
+        className={`absolute w-full bg-${theme}bg z-[10] transition duration-300 lg:hidden ${
           meuopen ? "" : "-translate-y-full"
         }`}
       >
@@ -167,38 +168,35 @@ const Navbar = () => {
             }`}
           >
             {" "}
-            <Link href="/UrlSearch"></Link>
+            <Link href="/Eduction"><i class="fa-solid fa-graduation-cap"></i> Eduction</Link>
           </li>
           <li
             className={`hover:text-yellow-300 p-2  transition duration-[600ms] ${
               meuopen ? "" : "-translate-x-full"
             }`}
           >
-            <Link href="/SmsAnalysis"></Link>
+            <Link href="/VirtualTrading"><i class="fa-solid fa-arrow-trend-up"></i>  VirtualTrading</Link>
           </li>
-          {/* <li className="">
-        <Link href="/FraudDetection">FraudDetection</Link>
-      </li> */}
           <li
             className={`hover:text-yellow-300 p-2  transition duration-[750ms] ${
               meuopen ? "" : "-translate-x-full"
             }`}
           >
-            <Link href="/Balance">Crypto Wallets</Link>
+            <Link href="/Store"><i class="fa-solid fa-store"></i> Store</Link>
           </li>
           <li
             className={`hover:text-yellow-300 p-2  transition duration-[900ms] ${
               meuopen ? "" : "-translate-x-full"
             }`}
           >
-            <Link href="/Education">Education</Link>
+            <Link href="/chat"><i class="fa-solid fa-users"></i>  Community</Link>
           </li>
           <li
             className={`hover:text-red-300 p-2  transition duration-[1050ms] ${
               meuopen ? "" : "-translate-x-full"
             }`}
           >
-            <Link href="/FraudReporting">Fraud Reporting</Link>
+            <Link href="/Profile"><i class="fa-solid fa-user"></i>  Profile</Link>
           </li>
           <div className="hidden lg:block">
             {userEmail ? (
@@ -220,7 +218,7 @@ const Navbar = () => {
             )}
           </div>
         </ul>
-        <div className="hidden just a trigger component bg-darkbg text-lighttxt text-darktxt bg-dark bg-light text-darkth text-lightth from-light to-light from-dark to-dark "></div>
+        <div className="hidden just a trigger component bg-darkbg text-lighttxt text-darktxt bg-dark bg-light text-darkth text-lightth from-light to-light from-dark to-dark text-lightth bg-lightbg bg-darkbg"></div>
       </div>
     </>
   );

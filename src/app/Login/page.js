@@ -1,33 +1,15 @@
-"use client";
-import React, { useEffect } from "react";
-import { useState, useContext } from "react";
+import React, { useState } from "react";
 import supabase from "../supabase";
-// import { AppContext } from "@components/AppContext/AppContext";
-
-// import { Environment, OrbitControls } from "@react-three/drei";
-// import { Redirect } from 'react-router-dom';
-
-// import { Environment, OrbitControls } from "@react-three/drei";
-// import { Suspense } from "react";
-// import { Canvas } from "@react-three/fiber";
-// import Bus from "../Bus";
-// import { TextureLoader } from "three/src/loaders/TextureLoader";
-// import Car from "../Car";
-// import Navbar from "../Components/Navbar";
 import Navbar from "@/components/Navbar/Navbar";
-// import { Link } from "react-router-dom";
 import Link from "next/link";
 
-const page = () => {
-  // const colorMap = useLoader(TextureLoader, 'standard_baseColor.png')
-  // const { email, setemail } = useContext(AppContext);
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
-  const [passwordt, setpasswordt] = useState("password");
-  const [password1, setpassword1] = useState("");
-  const [name, setname] = useState("");
-
-  const [register, setregister] = useState(false);
+const Page = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordt, setPasswordt] = useState("password");
+  const [password1, setPassword1] = useState("");
+  const [name, setName] = useState("");
+  const [register, setRegister] = useState(false);
 
   const handleinvite = async (e) => {
     e.preventDefault();
@@ -49,7 +31,7 @@ const page = () => {
         password: password,
       });
       if (data) {
-        setemail(data.user.email);
+        setEmail(data.user.email);
         console.log(data);
         window.location.href = "/";
       }
@@ -60,7 +42,7 @@ const page = () => {
 
   const registerbutton = (e) => {
     e.preventDefault();
-    setregister(!register);
+    setRegister(!register);
   };
 
   async function signUpNewUser(e) {
@@ -71,10 +53,6 @@ const page = () => {
         password: password,
       });
       if (error) {
-        // seterror1("Error");
-        // seterrors(error.message);
-        // seterrorimg(wrongtick);
-        // openPopup()
         alert(error.message);
         console.log(error);
       } else {
@@ -93,6 +71,7 @@ const page = () => {
       alert("Passwords do not match");
     }
   }
+
   const forgtpassword = async (e) => {
     let { data, error } = await supabase.auth.resetPasswordForEmail(email);
     if (error) {
@@ -102,24 +81,10 @@ const page = () => {
       alert(data.message);
     }
   };
+
   const passwordtoggle = () => {
-    if (passwordt === "password") {
-      setpasswordt("text");
-    } else {
-      setpasswordt("password");
-    }
+    setPasswordt(passwordt === "password" ? "text" : "password");
   };
-
-  // const password1toggle=()=>{
-  //   if(password1t==="password"){
-  //     setpassword1t("text");
-  //   }
-  //   else{
-  //     setpassword1t("password");
-  //   }
-  // }
-
-  // useEffect(() => {}, []);
 
   return (
     <>
@@ -138,7 +103,7 @@ const page = () => {
                   name=""
                   id=""
                   onChange={(e) => {
-                    setemail(e.target.value);
+                    setEmail(e.target.value);
                   }}
                 />
                 <div className="my-2 relative bg-white flex justify-center items-center">
@@ -149,10 +114,10 @@ const page = () => {
                     placeholder="Password"
                     id=""
                     onChange={(e) => {
-                      setpassword(e.target.value);
+                      setPassword(e.target.value);
                     }}
                   />
-                  {passwordt == "password" ? (
+                  {passwordt === "password" ? (
                     <i
                       className="fa-solid fa-eye-slash bg-white mr-2"
                       onClick={passwordtoggle}
@@ -167,7 +132,6 @@ const page = () => {
                 {register && (
                   <>
                     <div className="my-2 relative bg-white flex justify-center items-center">
-                      {/* {setpassword1 &&} */}
                       <input
                         className=" p-2 grow"
                         type={passwordt}
@@ -175,10 +139,10 @@ const page = () => {
                         placeholder="Confirm Password"
                         id=""
                         onChange={(e) => {
-                          setpassword1(e.target.value);
+                          setPassword1(e.target.value);
                         }}
                       />
-                      {passwordt == "password" ? (
+                      {passwordt === "password" ? (
                         <i
                           className="fa-solid fa-eye-slash bg-white mr-2"
                           onClick={passwordtoggle}
@@ -198,7 +162,7 @@ const page = () => {
                         placeholder="Your Name"
                         id=""
                         onChange={(e) => {
-                          setname(e.target.value);
+                          setName(e.target.value);
                         }}
                       />
                     </div>
@@ -220,13 +184,13 @@ const page = () => {
                 </button>
 
                 {!register && (
-                  <a href="" className="underline" onClick={registerbutton}>
+                  <a href="#" className="underline" onClick={registerbutton}>
                     Register?
                   </a>
                 )}
                 {!register && (
-                  <a href="" className="underline" onClick={forgtpassword}>
-                    Fogot Password?
+                  <a href="#" className="underline" onClick={forgtpassword}>
+                    Forgot Password?
                   </a>
                 )}
                 {register && (
@@ -238,30 +202,19 @@ const page = () => {
                   </button>
                 )}
                 {register && (
-                  <a href="" className="underline" onClick={registerbutton}>
+                  <a href="#" className="underline" onClick={registerbutton}>
                     Go back
                   </a>
                 )}
               </div>
             </form>
-            {/* <div className=''>
-      </div> */}
           </div>
         </div>
 
-        <div className="h-52 max-w-[80%] lg:h-[500px] lg:w-[500px] ">
-          {/* <Canvas>
-          <ambientLight />
-          <Environment preset="forest" />
-          <Suspense fallback={null}>
-            <OrbitControls autoRotate autoRotateSpeed={10} />
-            <Car />
-          </Suspense>
-        </Canvas> */}
-        </div>
+        <div className="h-52 max-w-[80%] lg:h-[500px] lg:w-[500px] "></div>
       </div>
     </>
   );
 };
 
-export default page;
+export default Page;

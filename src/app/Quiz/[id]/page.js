@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Quiz from "@/app/Components/Quiz1";
 import React from 'react';
 
+
 const Page = () => {
     const path = window.location.pathname;
     return (

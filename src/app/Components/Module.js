@@ -1,6 +1,10 @@
+// import { redirect } from 'next/dist/server/api-utils';
+import Link from 'next/link';
 import React from 'react';
+// import useRouter from 'next/navigation';
 
-const ModuleComponent = ({ module }) => {
+const ModuleComponent = ({ module,no }) => {
+  // const router = useRouter();
   return (
     <div className="p-8 text-white bg-gray-900 rounded-lg shadow-xl">
       {module.chapters.map((chapter, chapterIndex) => (
@@ -15,9 +19,11 @@ const ModuleComponent = ({ module }) => {
         </div>
       ))}
       <div className="text-center">
+        <Link href={`/Quiz/${no}`}> 
         <button className="px-6 py-2 text-white transition duration-300 ease-in-out bg-blue-600 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
           Take Quiz
         </button>
+        </Link>
       </div>
     </div>
   );

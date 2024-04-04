@@ -28,53 +28,6 @@ firebase.initializeApp({
 const auth = firebase.auth();
 
 const firestore = firebase.firestore();
-// const analytics = firebase.analytics();
-
-
-function App() {
-
-  const [user] = useAuthState(auth);
-
-  return (
-    <div className="App bg-gray-900 text-white min-h-screen">
-        <header className="bg-gray-800 p-4">
-            <SignOut />
-        </header>
-        <section className="py-4">
-            {user ? <ChatRoom /> : <SignIn />}
-        </section>
-    </div>
-  );
-}
-
-function SignIn() {
-
-  const signInWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
-  }
-
-  return (
-    <div className="flex flex-col items-center justify-center h-screen">
-        <button className="sign-in bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out" onClick={signInWithGoogle}>
-            Sign in with Google
-        </button>
-        <p className="text-gray-600 mt-4">
-            Do not violate the community guidelines or you will be banned for life!
-        </p>
-    </div>
-  )
-
-}
-
-function SignOut() {
-  return auth.currentUser && (
-    <div className="flex justify-end items-center h-full">
-        <button className="sign-out bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out" onClick={() => auth.signOut()}>Sign Out</button>
-    </div>
-  )
-}
-
 
 function ChatRoom() {
   const dummy = useRef();
@@ -89,13 +42,10 @@ function ChatRoom() {
   const sendMessage = async (e) => {
     e.preventDefault();
 
-    const { uid, photoURL } = auth.currentUser;
-
     await messagesRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      uid,
-      photoURL
+      
     })
 
     setFormValue('');
@@ -104,7 +54,7 @@ function ChatRoom() {
 
   return (
     <main className="px-4">
-        <div className="chat-container">
+        <div className="chat-container ">
           {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
           <span ref={dummy}></span>
         </div>
@@ -118,20 +68,21 @@ function ChatRoom() {
 
 
 function ChatMessage(props) {
-  const { text, uid, photoURL } = props.message;
+  const { text } = props.message;
 
-  const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
 
   return (
-    <div className={`message ${messageClass} flex items-center bg-gray-800 border rounded-lg p-4 shadow-md mb-4 mx-10`}>
-        <img
-          src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'}
-          className="w-12 h-12 rounded-full object-cover mr-4"
-          alt="User"
-        />
+    <div className="flex bg-white-400">
+    <h6 className="float  text-blue-600 font-extrabold  ml-1">user :</h6>
+    <div className={`message flex items-center bg-gray-800 border rounded-lg p-4 shadow-md mb-4 mx-10`}>
+      <div className="float">
+        
+        <h6 className="float  text-yellow-300  ml-1"></h6>
+        </div>
         <p className="text-gray-200">{text}</p>
+    </div>
     </div>
   )
 }
 
-export default App;
+export default ChatRoom;

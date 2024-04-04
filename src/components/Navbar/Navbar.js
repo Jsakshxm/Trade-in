@@ -18,6 +18,8 @@ const Navbar = () => {
   const [userEmail, setUserEmail] = useState(null);
   const [meuopen, setmenuopen] = useState(false);
   const { theme, settheme } = useContext(AppContext);
+  const [zeta, setzeta] = useState(0);
+
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -46,6 +48,41 @@ const Navbar = () => {
       window.location.href = "/";
     }
   };
+
+
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Fetch user data
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUserEmail(user.email);
+        // Fetch balance only if user email is available
+        const { data: UserData, error } = await supabase
+          .from('UserData')
+          .select('balance')
+          .eq('email', user.email);
+        if (error) {
+          console.error('Error fetching balance:', error.message);
+          return;
+        }
+        // If data is fetched successfully, log and alert the balance
+        if (UserData.length > 0) {
+          const balance = UserData[0].balance;
+          console.log('Balance:', balance);
+          setzeta(balance);
+        } else {
+          console.log('No balance found for user:', user.email);
+        }
+      } else {
+        setUserEmail(null);
+      }
+    };
+  
+    fetchData();
+  }, []);
+  
   return (
     <>
       <header
@@ -60,7 +97,7 @@ const Navbar = () => {
         </Link>
         <ul className="hidden lg:flex space-x-5 ">
         <li className="hover:text-yellow-300 p-2">
-            <Link href="/Tutorial">Tutorial</Link>
+        <Link href="/Education">Education</Link>
           </li>
           <li className="hover:text-yellow-300 p-2">
             {" "}
@@ -68,13 +105,16 @@ const Navbar = () => {
           </li>
         </ul>
       <div className="hidden lg:flex items-center space-x-2 ">
+      {userEmail && (
+        <>
             <div className={`flex items-center`}>
             <Image className="w-4" src={Logo} alt="Logo" />
-            1234
+            </div>
+              <div className="">
+                <Link href="/Store"><i class="fa-solid fa-store text-xl"></i></Link>
               </div>
-              <div className="hover:text-white">
-                <Link href="/Store">Store img</Link>
-              </div>
+              </>
+              )}
           {userEmail ? (
             <>
               <div

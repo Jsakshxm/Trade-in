@@ -16,6 +16,9 @@ export default function RootLayout({ children }) {
   const [theme, settheme] = useState("light");
   return (
     <AppContext.Provider value={{ theme, settheme }}>
+      <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"></link>
+      </head>
     <html lang="en">
       <body className={inter.className}>{children}</body>
     </html>

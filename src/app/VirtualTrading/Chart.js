@@ -14,6 +14,8 @@ const Chart = () => {
   const [linePrice, setLinePrice] = useState(null);
   const { theme } = useContext(AppContext);
   const [zeta, setzeta] = useState();
+  const [zeta2, setzeta2] = useState();
+
 
   const initialData = [];
   const [quantity, setQuantity] = useState(1); // State to hold the quantity to buy
@@ -50,89 +52,163 @@ const Chart = () => {
     console.log(zeta);
   }, [currentPrice]);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (user) {
-        setUserEmail(user.email);
-      } else {
-        setUserEmail(null);
+//   useEffect(() => {
+//     const fetchUser = async () => {
+//       const {
+//         data: { user },
+//       } = await supabase.auth.getUser();
+//       if (user) {
+//         setUserEmail(user.email);
+//         alert(user.email);
+//       } else {
+//         setUserEmail(null);
+//       }
+//     };
+//     fetchUser();
+//     const fetchbalance = async () => {
+//         let { data: UserData, error } = await supabase
+//         .from('UserData')
+//         .select('balance')
+//         .eq('email', userEmail);
+//         console.log(zeta);
+//               alert(zeta);
+//             }
+//         fetchbalance();
+//   }, []);
+useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch user data
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        if (userError) {
+          throw new Error('Error fetching user data:', userError.message);
+        }
+  
+        if (user) {
+          setUserEmail(user.email);
+  
+          // Fetch balance
+          const { data: userData, error: balanceError } = await supabase
+            .from('UserData')
+            .select('balance')
+            .eq('email', user.email);
+          if (balanceError) {
+            throw new Error('Error fetching balance:', balanceError.message);
+          }
+  
+          if (userData.length > 0) {
+            const balance = userData[0].balance;
+            console.log('Balance:', balance);
+            alert('Balance: ' + balance);
+            setzeta(balance); // Initialize zeta with balance
+          } else {
+            console.log('No balance found for user:', user.email);
+          }
+  
+          // Fetch trades
+          const { data: trades, error: tradesError } = await supabase
+            .from("Trades")
+            .select("*")
+            .eq("email", user.email);
+          if (tradesError) {
+            throw new Error('Error fetching trades:', tradesError.message);
+          }
+  
+          if (trades) {
+            setTrades(trades);
+            alert(trades.length);
+            console.log('Trades:', trades);
+          } else {
+            console.log('No trades found for user:', user.email);
+          }
+        } else {
+          setUserEmail(null);
+        }
+      } catch (error) {
+        console.error(error.message);
       }
     };
-    fetchUser();
-  }, []);
-
-  const handlesell = async (id) => {
-    try {
-      const { data, error } = await supabase
-        .from("Trades")
-        .update({ status: "sell" })
-        .eq("id", id)
-        .single(); // Assuming id is unique, use single() to update only one row
-      if (error) {
-        throw error;
-      }
-
-      console.log('Successfully updated status to "sell"', data);
-
-      // Calculate the new balance after selling
-      let anna = zeta + (quantity * currentPrice); // Assuming 'quantity' is available
-      console.log(anna);
-
-      // Update the balance in UserData table
-      const { data2, error2 } = await supabase
-        .from("UserData")
-        .update({ balance: anna })
-        .eq("email", userEmail)
-        .single();
-
-      if (error2) {
-        throw error2;
-      }
-
-    } catch (error) {
-      console.error("Error selling stock", error);
-      alert("Error selling stock");
-    }
-    
+  
     fetchData();
-};
-const fetchbalace = async () => {
-    let { data: UserData, error } = await supabase
-    .from('UserData')
-    .select('balance')
-    .eq('email', userEmail);
-    setzeta(UserData.balance); 
-    console.log(zeta);
-          alert(zeta);
-        }
+  }, []);
+  
 
-useEffect(() => {
-const fetchbalace = async () => {
-let { data: UserData, error } = await supabase
-.from('UserData')
-.select('balance')
-.eq('email', userEmail);
-setzeta(UserData.balance); 
-console.log(zeta);
-      alert(zeta);
-    }
-    fetchbalace();
-},[])
+// useEffect(() => {
+// const fetchbalance = async () => {
+// // let { data: UserData, error } = await supabase
+// // .from('UserData')
+// // .select('balance')
+// // .eq('email', userEmail);
+// // setzeta(UserData.balance); 
+// // console.log(zeta);
+// //       alert(zeta);
+// //     }
+// let { data: UserData, error } = await supabase
+// .from("UserData")
+// .select("balance");
+// setzeta(UserData[0].balance); // Initialize zeta with balance
+// console.log(zeta);
+// }
+//     fetchbalance();
+// },[])
+// const handleBuy = async () => {
+//     console.log(`Buying ${quantity} units at price ${currentPrice}`);
+// //     let { data: UserData, error } = await supabase
+// //     .from("UserData")
+// //     .select("balance");
+// //   setzeta(UserData[0].balance); // Initialize zeta with balance
+// //   console.log(zeta);
+// //   alert(zeta);
+
+//     if (zeta >= quantity * currentPrice) {
+//       try {
+//         const { data, error } = await supabase
+//           .from("Trades")
+//           .insert([
+//             {
+//               Symbol: symbol,
+//               Quantity: quantity,
+//               buyprice: currentPrice,
+//               email: userEmail,
+//               status: "buy",
+//               total: quantity * currentPrice,
+//               profit: 0,
+//             },
+//           ])
+//           .select();
+        
+//         // Deduct purchase amount from balance
+//         let c = quantity * currentPrice;
+//         setzeta(prevZeta => prevZeta - c); // Use callback function to ensure correct state update
+
+//         // Update balance in UserData table
+//         const { data: updatedUserData, error: updateError } = await supabase
+//           .from("UserData")
+//           .update('balance', zeta)
+//           .select(); // Assuming there's only one row for user data
+        
+//         if (updateError) {
+//           throw updateError;
+//         }
+
+//       } catch (error) {
+//         alert("Error buying stock");
+//         console.log(error);
+//       }
+      
+//     } else {
+//       alert("Cannot buy less coin");
+//     }
+// };
+
+
 const handleBuy = async () => {
-    fetchbalace(); // Fetch balance before buying
     console.log(`Buying ${quantity} units at price ${currentPrice}`);
-    let { data: UserData, error } = await supabase
-    .from("UserData")
-    .select("balance");
-  setzeta(UserData[0].balance); // Initialize zeta with balance
-  console.log(zeta);
-
+  
     if (zeta >= quantity * currentPrice) {
       try {
-        const { data, error } = await supabase
+        // Insert trade into Trades table
+        const { data: tradeData, error: tradeError } = await supabase
           .from("Trades")
           .insert([
             {
@@ -145,33 +221,87 @@ const handleBuy = async () => {
               profit: 0,
             },
           ])
-          .select();
-        
+          .single(); // Assuming only one trade is inserted
+  
+        if (tradeError) {
+          throw tradeError;
+        }
+  
         // Deduct purchase amount from balance
-        let c = quantity * currentPrice;
-        setzeta(prevZeta => prevZeta - c); // Use callback function to ensure correct state update
-
+        const updatedZeta = zeta - (quantity * currentPrice);
+        setzeta(updatedZeta);
+  
         // Update balance in UserData table
         const { data: updatedUserData, error: updateError } = await supabase
           .from("UserData")
-          .update('balance', zeta)
-          .select(); // Assuming there's only one row for user data
-        
+          .update({ balance: updatedZeta })
+          .eq('email', userEmail);
+  
         if (updateError) {
           throw updateError;
         }
-
+  
+        // Success message
+        alert("Stock bought successfully!");
+  
       } catch (error) {
         alert("Error buying stock");
-        console.log(error);
+        console.error(error);
       }
-      
     } else {
-      alert("Cannot buy less coin");
+      alert("Insufficient balance to buy stocks");
     }
-};
-
-
+  };
+  
+const handlesell = async (tradeId) => {
+    try {
+      // Fetch trade data
+      const { data: tradeData, error: tradeError } = await supabase
+        .from("Trades")
+        .select("*")
+        .eq("id", tradeId)
+        .single();
+  
+      if (tradeError) {
+        throw tradeError;
+      }
+  
+      // Calculate profit
+      const profit = currentPrice - tradeData.buyprice;
+  
+      // Update trade status and profit
+      const { data: updatedTradeData, error: updateError } = await supabase
+        .from("Trades")
+        .update({ status: "sell", profit: profit })
+        .eq("id", tradeId);
+  
+      if (updateError) {
+        throw updateError;
+      }
+  
+      // Add profit to balance
+      const updatedZeta = zeta + (tradeData.Quantity * currentPrice);
+      setzeta(updatedZeta);
+  
+      // Update balance in UserData table
+      const { data: updatedUserData, error: updateUserDataError } = await supabase
+        .from("UserData")
+        .update({ balance: updatedZeta })
+        .eq("email", userEmail);
+  
+      if (updateUserDataError) {
+        throw updateUserDataError;
+      }
+  
+      // Success message
+      alert("Stock sold successfully!");
+  
+    } catch (error) {
+      alert("Error selling stock");
+      console.error(error);
+    }
+  
+}
 
   useEffect(() => {
     axios(

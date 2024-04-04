@@ -4,7 +4,7 @@ import { LineStyle, TickMarkType, createChart } from "lightweight-charts";
 import React, { use, useEffect, useRef, useState } from "react";
 import axios from "axios";
 // import "../App.css"
-import { AppContext } from "@/components/AppContext/AppContext";
+import { AppContext } from "../../components/AppContext/AppContext";
 import { useContext } from "react";
 import supabase from "../supabase";
 
@@ -404,12 +404,12 @@ const handlesell = async (tradeId) => {
       },
     });
 
-    // Setting the border color for the vertical axis
+    
     chart.priceScale("right").applyOptions({
       borderColor: "#71649C",
       visible: true,
-      invertScale: false, //for inverting the order of price
-      autoScale: true, //flase for enabling vertical mouse controlled move of chart
+      invertScale: false, 
+      autoScale: true, 
     });
 
     chart.priceScale("left").applyOptions({
@@ -417,7 +417,7 @@ const handlesell = async (tradeId) => {
       visible: true,
     });
 
-    // Setting the border color for the horizontal axis
+   
     chart.timeScale().applyOptions({
       borderColor: "#71649C",
       // borderVisible: false,
@@ -479,13 +479,6 @@ const handlesell = async (tradeId) => {
 
     const lineSeries = chart.addLineSeries();
     const candleStickSeries = chart.addCandlestickSeries();
-    // const newSeries = chart.addCandlestickSeries({
-    //     upColor: '#26a69a',
-    //     downColor: '#ef5350',
-    //     borderVisible: false,
-    //     wickUpColor: '#26a69a',
-    //     wickDownColor: '#ef5350'
-    //     });
     candleStickSeries.applyOptions({
       wickUpColor: "rgb(87, 217, 54)",
       upColor: "rgb(87, 217, 54)",
@@ -591,7 +584,7 @@ const handlesell = async (tradeId) => {
         <div className="">
           <label htmlFor="quantity">Quantity:</label>
           <input
-            className="border p-2 rounded-md mx-2"
+            className="border p-2 rounded-md mx-2 text-black"
             type="number"
             id="quantity"
             value={quantity}

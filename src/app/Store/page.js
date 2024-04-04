@@ -1,16 +1,20 @@
-
+"use client"
 import React from 'react';
 import Image from 'next/image';
 import Pile from '../../assets/pile.jpeg';
 import Chest from '../../assets/chest.jpeg';
 import Bag from '../../assets/bag.jpeg';
 import Shower from '../../assets/shower.jpeg';
+import { useState } from 'react';
+import Navbar from '@/components/Navbar/Navbar';
 
 
 
 const Main = () => {
     return (
-        <div className="flex flex-col items-center justify-center ">
+        <>
+        <Navbar></Navbar>
+        <div className="flex flex-col items-center justify-center pt-32">
             <h1 className="text-5xl font-bold">Store Offers</h1>
             <div className=" justify-center mt-8">
                 <div className="flex  justify-center">
@@ -20,7 +24,7 @@ const Main = () => {
                         </div>
                         <div >
                             <p className='text-center my-2 border border-solid border-black-400'>Pile Of ZetaCoins</p>
-                            <p className='text-center my-2 border border-solid border-black-400'>1000 Zeta Coins</p>
+                            <p className='text-center my-2 border border-solid border-black-400'>10000 Zeta Coins</p>
                             <div  className='text-center my-2 border border-solid border-black-400' >
                             <button>₹10</button>
                             </div>
@@ -35,7 +39,7 @@ const Main = () => {
                         </div>
                         <div >
                             <p className='text-center my-2 border border-solid border-black-400'>Pile Of ZetaCoins</p>
-                            <p className='text-center my-2 border border-solid border-black-400'>1000 Zeta Coins</p>
+                            <p className='text-center my-2 border border-solid border-black-400'>10000 Zeta Coins</p>
                             <div  className='text-center my-2 border border-solid border-black-400' >
                             <button>₹10</button>
                             </div>
@@ -49,7 +53,7 @@ const Main = () => {
                         </div>
                         <div >
                             <p className='text-center my-2 border border-solid border-black-400'>Pile Of ZetaCoins</p>
-                            <p className='text-center my-2 border border-solid border-black-400'>1000 Zeta Coins</p>
+                            <p className='text-center my-2 border border-solid border-black-400'>100000 Zeta Coins</p>
                             <div  className='text-center my-2 border border-solid border-black-400' >
                             <button>₹10</button>
                             </div>
@@ -66,7 +70,7 @@ const Main = () => {
                         </div>
                         <div >
                             <p className='text-center my-2 border border-solid border-black-400'>Pile Of ZetaCoins</p>
-                            <p className='text-center my-2 border border-solid border-black-400'>1000 Zeta Coins</p>
+                            <p className='text-center my-2 border border-solid border-black-400'>1000000 Zeta Coins</p>
                             <div  className='text-center my-2 border border-solid border-black-400' >
                             <button>₹10</button>
                             </div>
@@ -84,7 +88,7 @@ const Main = () => {
 
         </div>
       
-
+        </>
     );
 };
 

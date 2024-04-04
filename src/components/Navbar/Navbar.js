@@ -103,6 +103,14 @@ const Navbar = () => {
             {" "}
             <Link href="/VirtualTrading">VirtualTrading</Link>
           </li>
+          <li className="hover:text-yellow-300 p-2">
+            {" "}
+            <Link href="/Chat">Community chat</Link>
+          </li>
+          <li className="hover:text-yellow-300 p-2">
+            {" "}
+            <Link href="/Chat"></Link>
+          </li>
         </ul>
       <div className="hidden lg:flex items-center space-x-2 ">
       {userEmail && (

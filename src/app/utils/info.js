@@ -1,5 +1,5 @@
 
-   export const module_1 = {"chatpters": [{
+   export const module_1 = {"chapters": [{
       "title": "Understanding the Basics of the Stock Market",
       "sections": [
         {

@@ -10,7 +10,15 @@ const ModulePage = () => {
 
   return (
     <div>
-   {path === '/Education/1' && <ModuleComponent module={module_1} />}
+   {/* {path === '/Education/1' && <ModuleComponent module={module_1} />}
+   {path === '/Education/2' && <ModuleComponent module={module_2} />}
+   {path === '/Education/3' && <ModuleComponent module={module_3} />}
+   {path === '/Education/4' && <ModuleComponent module={module_4} />}
+    {path === '/Education/5' && <ModuleComponent module={module_5} />}
+    {path === '/Education/6' && <ModuleComponent module={module_6} />}
+    {path === '/Education/7' && <ModuleComponent module={module_7} />}
+    {path === '/Education/8' && <ModuleComponent module={module_8} />} */}
+    {path === '/Education/1' && <ModuleComponent module={module_1} />}
    {path === '/Education/2' && <ModuleComponent module={module_2} />}
    {path === '/Education/3' && <ModuleComponent module={module_3} />}
    {path === '/Education/4' && <ModuleComponent module={module_4} />}

@@ -4,8 +4,7 @@ import Image from 'next/image';
 import Pile from '../../assets/pile.jpeg';
 import Chest from '../../assets/chest.jpeg';
 import Bag from '../../assets/bag.jpeg';
-import Shower from '../../assets/shower.jpeg';
-import { useState } from 'react';
+// import Shower from '../../assets/shower.jpeg';
 import Navbar from '@/components/Navbar/Navbar';
 
 
@@ -20,7 +19,7 @@ const Main = () => {
                 <div className="flex  justify-center">
                     <div className="w-64 h-64 border2  mx-10 my-10">
                         <div>
-                            <Image src={Pile}></Image>
+                            <Image src={Pile} width={300} height={300} alt='Pile'></Image>
                         </div>
                         <div >
                             <p className='text-center my-2 border border-solid border-black-400'>Pile Of ZetaCoins</p>
@@ -35,7 +34,7 @@ const Main = () => {
                     </div>
                     <div className="w-64 h-64 border2  mx-10 my-10">
                         <div>
-                            <Image src={Chest}></Image>
+                            <Image src={Chest} width={300} height={300} alt='Chest'></Image>
                         </div>
                         <div >
                             <p className='text-center my-2 border border-solid border-black-400'>Pile Of ZetaCoins</p>
@@ -49,7 +48,7 @@ const Main = () => {
                     </div>
                     <div className="w-64 h-64 border2  mx-10 my-10">
                         <div>
-                            <Image src={Bag}></Image>
+                            <Image src={Bag} width={300} height={300} alt='Pile'></Image>
                         </div>
                         <div >
                             <p className='text-center my-2 border border-solid border-black-400'>Pile Of ZetaCoins</p>
@@ -66,7 +65,7 @@ const Main = () => {
                 <div className="flex  justify-center my-20">
                     <div className="w-64 h-64 border2  mx-10 my-10">
                         <div>
-                            <Image src={Shower}></Image>
+                            <Image src={Pile} width={300} height={300} alt='Pile'></Image>
                         </div>
                         <div >
                             <p className='text-center my-2 border border-solid border-black-400'>Pile Of ZetaCoins</p>

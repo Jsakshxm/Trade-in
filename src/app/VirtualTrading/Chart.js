@@ -13,8 +13,8 @@ const Chart = () => {
   const [linePrice, setLinePrice] = useState(null);
   const { theme } = useContext(AppContext);
   const [zeta, setZeta] = useState();
-  const [quantity, setQuantity] = useState(1); // State to hold the quantity to buy
-  const [currentPrice, setCurrentPrice] = useState(null); // State to hold the current price
+  const [quantity, setQuantity] = useState(1);
+  const [currentPrice, setCurrentPrice] = useState(null); 
   const [symbol, setSymbol] = useState("BTCUSDT");
   const [userEmail, setUserEmail] = useState(null);
   const [trades, setTrades] = useState([]);
@@ -26,7 +26,9 @@ const Chart = () => {
         // Fetch user data
         const { data: { user }, error: userError } = await supabase.auth.getUser();
         if (userError) {
-          throw new Error('Error fetching user data:', userError.message);
+          console.error('Error fetching user data:', userError.message);
+          // Handle error gracefully here
+          return;
         }
 
         if (user) {
@@ -38,7 +40,9 @@ const Chart = () => {
             .select('balance')
             .eq('email', user.email);
           if (balanceError) {
-            throw new Error('Error fetching balance:', balanceError.message);
+            console.error('Error fetching balance:', balanceError.message);
+            // Handle error gracefully here
+            return;
           }
 
           if (userData.length > 0) {
@@ -55,7 +59,9 @@ const Chart = () => {
             .select("*")
             .eq("email", user.email);
           if (tradesError) {
-            throw new Error('Error fetching trades:', tradesError.message);
+            console.error('Error fetching trades:', tradesError.message);
+            // Handle error gracefully here
+            return;
           }
 
           if (tradesData) {
@@ -170,161 +176,165 @@ const Chart = () => {
   };
 
   useEffect(() => {
-    axios(
-      `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1m&limit=50`
-    ).then((response) => {
-      const initialData = response.data.map((kline) => ({
-        time: kline[0],
-        open: parseFloat(kline[1]),
-        high: parseFloat(kline[2]),
-        low: parseFloat(kline[3]),
-        close: parseFloat(kline[4]),
-      }));
+    axios(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1m&limit=50`)
+      .then((response) => {
+        const initialData = response.data.map((kline) => ({
+          time: kline[0],
+          open: parseFloat(kline[1]),
+          high: parseFloat(kline[2]),
+          low: parseFloat(kline[3]),
+          close: parseFloat(kline[4]),
+        }));
 
-      const lineData = initialData.map((item) => ({
-        time: item.time,
-        value: (item.open + item.close) / 2,
-      }));
+        const lineData = initialData.map((item) => ({
+          time: item.time,
+          value: (item.open + item.close) / 2,
+        }));
 
-      const chart = createChart(chartContainerRef.current);
+        const chart = createChart(chartContainerRef.current);
 
-      chart.applyOptions({
-        layout: {
-          background: { color: "#222" },
-          textColor: "#DDD",
-        },
-        grid: {
-          vertLines: { color: "#444" },
-          horzLines: { color: "#444" },
-        },
-        width: chartContainerRef.current.clientWidth,
-        height: 400,
-        crosshair: {
-          vertLine: {
-            width: 3,
-            color: "#C3BCDB44",
-            style: LineStyle.Dashed,
-            labelBackgroundColor: "#9B7DFF",
-          },
-          horzLine: {
-            color: "#9B7DFF",
-            labelBackgroundColor: "#9B7DFF",
-          },
-        },
-        localization: {
-          locate: "en-IN",
-          timeFormatter: (time) => {
-            const date = new Date(time * 1000);
-            const dateFormatter = new Intl.DateTimeFormat(navigator.language, {
-              hour: "numeric",
-              minute: "numeric",
-              month: "short",
-              day: "numeric",
-              year: "2-digit",
-            });
-            return dateFormatter.format(date);
-          },
-          priceFormatter: (price) => {
-            const myPrice = new Intl.NumberFormat("en-IN", {
-              style: "currency",
-              currency: "INR",
-              maximumFractionDigits: 2,
-            }).format(price);
-            return myPrice;
-          },
-        },
-      });
-
-      chart.priceScale("right").applyOptions({
-        borderColor: "#71649C",
-        visible: true,
-        invertScale: false,
-        autoScale: true,
-      });
-
-      chart.priceScale("left").applyOptions({
-        borderColor: "#71649C",
-        visible: true,
-      });
-
-      chart.timeScale().applyOptions({
-        borderColor: "#71649C",
-        timeVisible: true,
-        rightOffset: 20,
-        barSpacing: 15,
-        minBarSpacing: 5,
-        fixLeftEdge: true,
-        tickMarkFormatter: (time, tickMarkType, locale) => {
-          const date = new Date(time * 1000);
-          switch (tickMarkType) {
-            case TickMarkType.Year:
-              return date.getFullYear();
-            case TickMarkType.Month:
-              const monthFormatter = new Intl.DateTimeFormat(locale, {
-                month: "short",
-              });
-              return monthFormatter.format(date);
-            case TickMarkType.DayOfMonth:
-              return date.getDate();
-            case TickMarkType.Time:
-              const timeFormatter = new Intl.DateTimeFormat(locale, {
-                hour: "numeric",
-                minute: "numeric",
-              });
-              return timeFormatter.format(date);
-            case TickMarkType.TimeWithSeconds:
-              const TimeWithSecondsFormatter = new Intl.DateTimeFormat(locale, {
-                hour: "numeric",
-                minute: "numeric",
-                second: "numeric",
-              });
-              return TimeWithSecondsFormatter.format(date);
-            default:
-              console.log("Sorry, we are out of. ");
-          }
-        },
-      });
-
-      const lineSeries = chart.addLineSeries();
-      const candleStickSeries = chart.addCandlestickSeries();
-      candleStickSeries.applyOptions({
-        wickUpColor: "rgb(87, 217, 54)",
-        upColor: "rgb(87, 217, 54)",
-        wickDownColor: "rgb(225, 50, 85)",
-        downColor: "rgb(225, 50, 85)",
-        borderVisible: false,
-      });
-
-      lineSeries.applyOptions({
-        lineWidth: 1,
-        priceScaleId: "left",
-      });
-
-      candleStickSeries.setData(initialData);
-      lineSeries.setData(lineData);
-
-      chart.subscribeCrosshairMove((param) => {
-        if (param.time) {
-          const data = param.seriesData.get(candleStickSeries);
-          const linePriceData = param.seriesData.get(lineSeries);
-          setCandlePrice(data);
-          setLinePrice(linePriceData);
-        }
-      });
-
-      const handleResize = () => {
         chart.applyOptions({
+          layout: {
+            background: { color: "#222" },
+            textColor: "#DDD",
+          },
+          grid: {
+            vertLines: { color: "#444" },
+            horzLines: { color: "#444" },
+          },
           width: chartContainerRef.current.clientWidth,
+          height: 400,
+          crosshair: {
+            vertLine: {
+              width: 3,
+              color: "#C3BCDB44",
+              style: LineStyle.Dashed,
+              labelBackgroundColor: "#9B7DFF",
+            },
+            horzLine: {
+              color: "#9B7DFF",
+              labelBackgroundColor: "#9B7DFF",
+            },
+          },
+          localization: {
+            locate: "en-IN",
+            timeFormatter: (time) => {
+              const date = new Date(time * 1000);
+              const dateFormatter = new Intl.DateTimeFormat(navigator.language, {
+                hour: "numeric",
+                minute: "numeric",
+                month: "short",
+                day: "numeric",
+                year: "2-digit",
+              });
+              return dateFormatter.format(date);
+            },
+            priceFormatter: (price) => {
+              const myPrice = new Intl.NumberFormat("en-IN", {
+                style: "currency",
+                currency: "INR",
+                maximumFractionDigits: 2,
+              }).format(price);
+              return myPrice;
+            },
+          },
         });
-      };
 
-      window.addEventListener("resize", handleResize);
+        chart.priceScale("right").applyOptions({
+          borderColor: "#71649C",
+          visible: true,
+          invertScale: false,
+          autoScale: true,
+        });
 
-      return () => {
-        chart.remove();
-        window.removeEventListener("resize", handleResize);
-      };
-    });
+        chart.priceScale("left").applyOptions({
+          borderColor: "#71649C",
+          visible: true,
+        });
+
+        chart.timeScale().applyOptions({
+          borderColor: "#71649C",
+          timeVisible: true,
+          rightOffset: 20,
+          barSpacing: 15,
+          minBarSpacing: 5,
+          fixLeftEdge: true,
+          tickMarkFormatter: (time, tickMarkType, locale) => {
+            const date = new Date(time * 1000);
+            switch (tickMarkType) {
+              case TickMarkType.Year:
+                return date.getFullYear();
+              case TickMarkType.Month:
+                const monthFormatter = new Intl.DateTimeFormat(locale, {
+                  month: "short",
+                });
+                return monthFormatter.format(date);
+              case TickMarkType.DayOfMonth:
+                return date.getDate();
+              case TickMarkType.Time:
+                const timeFormatter = new Intl.DateTimeFormat(locale, {
+                  hour: "numeric",
+                  minute: "numeric",
+                });
+                return timeFormatter.format(date);
+              case TickMarkType.TimeWithSeconds:
+                const TimeWithSecondsFormatter = new Intl.DateTimeFormat(locale, {
+                  hour: "numeric",
+                  minute: "numeric",
+                  second: "numeric",
+                });
+                return TimeWithSecondsFormatter.format(date);
+              default:
+                console.log("Sorry, we are out of. ");
+            }
+          },
+        });
+
+        const lineSeries = chart.addLineSeries();
+        const candleStickSeries = chart.addCandlestickSeries();
+        candleStickSeries.applyOptions({
+          wickUpColor: "rgb(87, 217, 54)",
+          upColor: "rgb(87, 217, 54)",
+          wickDownColor: "rgb(225, 50, 85)",
+          downColor: "rgb(225, 50, 85)",
+          borderVisible: false,
+        });
+
+        lineSeries.applyOptions({
+          lineWidth: 1,
+          priceScaleId: "left",
+        });
+
+        candleStickSeries.setData(initialData);
+        lineSeries.setData(lineData);
+
+        chart.subscribeCrosshairMove((param) => {
+          if (param.time) {
+            const data = param.seriesData.get(candleStickSeries);
+            const linePriceData = param.seriesData.get(lineSeries);
+            setCandlePrice(data);
+            setLinePrice(linePriceData);
+          }
+        });
+
+        const handleResize = () => {
+          chart.applyOptions({
+            width: chartContainerRef.current.clientWidth,
+          });
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+          chart.remove();
+          window.removeEventListener("resize", handleResize);
+        };
+      })
+      .catch((error) => {
+        console.error('Error fetching data from Binance API:', error);
+        // Handle error gracefully here
+        // You might want to show a message to the user or log it for debugging
+      });
   }, [symbol]);
 
   return (

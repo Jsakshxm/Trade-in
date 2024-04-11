@@ -1,23 +1,22 @@
 "use client";
-import React from 'react'
-import Navbar from '@/components/Navbar/Navbar'
-import Chart from './Chart'
-import { AppContext } from "../../components/AppContext/AppContext";
-import { useContext } from "react";
+import React, { useContext } from 'react';
+import Navbar from '@/components/Navbar/Navbar';
+import Chart from './Chart';
 import Footer from '@/components/Footer/Footer';
+import { AppContext } from "../../components/AppContext/AppContext";
 
-const page = () => {
-  const { theme, settheme } = useContext(AppContext);
+const Page = () => {
+  const { theme, setTheme } = useContext(AppContext);
 
   return (
     <div>
-      <Navbar></Navbar>
+      <Navbar />
       <div className={`pt-36 bg-${theme}bg text-${theme}txt min-h-screen`}>
-      <Chart></Chart>
+        <Chart />
       </div>
-      <Footer></Footer>
+      <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default Page;

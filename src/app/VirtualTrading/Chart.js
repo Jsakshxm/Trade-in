@@ -52,7 +52,8 @@ const Chart = () => {
     };
     fetchData();
     console.log(zeta);
-  }, [currentPrice]);
+  }, [currentPrice, zeta, userEmail]);
+
 useEffect(() => {
     const fetchData = async () => {
       try {

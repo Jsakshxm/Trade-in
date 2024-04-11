@@ -5,7 +5,7 @@ import Chart from './Chart';
 import Footer from '@/components/Footer/Footer';
 import { AppContext } from "../../components/AppContext/AppContext";
 
-const Page = () => {
+const page = () => {
   const { theme, setTheme } = useContext(AppContext);
 
   return (
@@ -19,4 +19,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default page;

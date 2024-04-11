@@ -92,18 +92,18 @@ const Main = () => {
   return (
     <>
       <Navbar />
-      <div className={`grid grid-cols-1 lg:grid-cols-5 pt-32 w-full px-4 lg:px-24`}>
+      <div className={`grid grid-cols-1 lg:grid-cols-3 pt-32 w-full px-4 lg:px-24 gap-4`}>
         <div className="flex">
           <div className="w-20 h-20 border-white mx-3 my-3 rounded-full">
             <Image src={Photo} alt="" width={80} height={80} />
           </div>
-          <div className="mx-4 my-3 ">
-            <p>Email: {userEmail}</p>
-            <p>Balance: {zeta}</p>
+          <div className="">
+            <p className="p-2">Email: {userEmail}</p>
+            <p className="p-2">Balance: {zeta}</p>
           </div>
         </div>
 
-        <div className="grid cols-span-2">
+        <div className="grid cols-span-2 border rounded-lg p-2">
           <h1 className="text-center">Leaderboards</h1>
           {/* Render leaderboards data here */}
           <div>
@@ -119,7 +119,7 @@ const Main = () => {
             ))}
           </div>
         </div>
-        <div className="grid cols-span-2">
+        <div className="grid cols-span-2  border rounded-lg p-2">
           <h1 className="center">Educational Leaderboards</h1>
           <div className="grid grid-cols-2">
             <p>Name</p>

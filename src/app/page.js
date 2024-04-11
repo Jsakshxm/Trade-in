@@ -24,10 +24,10 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Button from '@mui/material/Button';
-import { Environment, OrbitControls } from "@react-three/drei";
-import { Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
-import Scene from "./Scene.jsx"
+// import { Environment, OrbitControls } from "@react-three/drei";
+// import { Suspense } from "react";
+// import { Canvas } from "@react-three/fiber";
+// import Scene from "./Scene.jsx"
 
 export default function Home() {
   const { theme, settheme } = useContext(AppContext);
@@ -85,7 +85,7 @@ export default function Home() {
 
     <div className="spacer bg"></div>
       <div className={`pt-10 flex flex-col items-center justify-center w-full p-4 lg:p-10 bg-[#0066FF]`}>
-     {/* <TradingViewWidget className=""></TradingViewWidget> */}
+     <TradingViewWidget className=""></TradingViewWidget>
       </div>
       <div className="bg2"></div>
 

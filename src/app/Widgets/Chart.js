@@ -36,7 +36,9 @@ useEffect(
         }`;
       container.current.appendChild(script);
       return () => {
-        container.current.removeChild(script);
+        if (container.current && container.current.removeChild) {
+          container.current.removeChild(script);
+      }
       };
     },
     []);

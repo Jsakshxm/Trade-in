@@ -19,7 +19,7 @@ const Navbar = () => {
   const [meuopen, setmenuopen] = useState(false);
   const { theme, settheme } = useContext(AppContext);
   const [zeta, setzeta] = useState(0);
-
+const [menu2,setmenu2]=useState(0);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -96,20 +96,16 @@ const Navbar = () => {
           Tradein
         </Link>
         <ul className="hidden lg:flex space-x-5 ">
-        <li className="hover:text-yellow-300 p-2">
+        <li className="hover:text-emerald-300 p-2">
         <Link href="/Education">Education</Link>
           </li>
-          <li className="hover:text-yellow-300 p-2">
+          <li className="hover:text-emerald-300 p-2">
             {" "}
             <Link href="/VirtualTrading">VirtualTrading</Link>
           </li>
-          <li className="hover:text-yellow-300 p-2">
+          <li className="hover:text-emerald-300 p-2">
             {" "}
-            <Link href="/Chat">Community chat</Link>
-          </li>
-          <li className="hover:text-yellow-300 p-2">
-            {" "}
-            <Link href="/Chat"></Link>
+            <Link href="/chat">Community chat</Link>
           </li>
         </ul>
       <div className="hidden lg:flex items-center space-x-2 ">
@@ -120,22 +116,28 @@ const Navbar = () => {
             {zeta}
             </div>
               <div className="">
-                <Link href="/Store"><i class="fa-solid fa-store text-xl"></i></Link>
+                <Link href="/Store"><i class="fa-solid fa-store text-xl"></i> Store </Link>
               </div>
               </>
               )}
           {userEmail ? (
             <>
               <div
-                onClick={logout}
-                className="dark:text-slate-400 p-2 hover:text-white  cursor-pointer"
+               
+                className="text-slate-600 p-2 hover:text-slate-900  cursor-pointer relative"
+                onMouseOver={()=>{setmenu2(1);}}
+                onMouseLeave={()=>{setmenu2(0);}}
               >
                 {userEmail}
+                <ul className={` ${menu2?"absolute":"hidden"} bg-white text-black rounded-md pt-2 `}>
+                  <Link href="/Profile" className="border-b p-4">Profile <i class="fa-solid fa-user"></i></Link>
+                  <li  onClick={logout} className="p-4">Logout <i class="fa-solid fa-arrow-right-from-bracket"></i></li>
+                </ul>
               </div>
             </>
           ) : (
             <div className="p-2 space-x-2 flex items-center justify-center">
-              <div className="hover:text-white">
+              <div className="hover:text-slate-800">
                 {<Link href="/Login">Login</Link>}
               </div>
             </div>

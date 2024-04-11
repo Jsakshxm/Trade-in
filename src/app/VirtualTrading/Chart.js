@@ -3,10 +3,11 @@
 import { LineStyle, TickMarkType, createChart } from "lightweight-charts";
 import React, { use, useEffect, useRef, useState } from "react";
 import axios from "axios";
-// import "../App.css"
 import { AppContext } from "../../components/AppContext/AppContext";
 import { useContext } from "react";
 import supabase from "../supabase";
+import JSConfetti from 'js-confetti'
+
 
 const Chart = () => {
   const chartContainerRef = useRef();
@@ -15,6 +16,7 @@ const Chart = () => {
   const { theme } = useContext(AppContext);
   const [zeta, setzeta] = useState();
   const [zeta2, setzeta2] = useState();
+  const jsConfetti = new JSConfetti()
 
 
   const initialData = [];
@@ -51,30 +53,6 @@ const Chart = () => {
     fetchData();
     console.log(zeta);
   }, [currentPrice]);
-
-//   useEffect(() => {
-//     const fetchUser = async () => {
-//       const {
-//         data: { user },
-//       } = await supabase.auth.getUser();
-//       if (user) {
-//         setUserEmail(user.email);
-//         alert(user.email);
-//       } else {
-//         setUserEmail(null);
-//       }
-//     };
-//     fetchUser();
-//     const fetchbalance = async () => {
-//         let { data: UserData, error } = await supabase
-//         .from('UserData')
-//         .select('balance')
-//         .eq('email', userEmail);
-//         console.log(zeta);
-//               alert(zeta);
-//             }
-//         fetchbalance();
-//   }, []);
 useEffect(() => {
     const fetchData = async () => {
       try {
@@ -99,7 +77,7 @@ useEffect(() => {
           if (userData.length > 0) {
             const balance = userData[0].balance;
             console.log('Balance:', balance);
-            alert('Balance: ' + balance);
+            // alert('Balance: ' + balance);
             setzeta(balance); // Initialize zeta with balance
           } else {
             console.log('No balance found for user:', user.email);
@@ -116,7 +94,7 @@ useEffect(() => {
   
           if (trades) {
             setTrades(trades);
-            alert(trades.length);
+            // alert(trades.length);
             console.log('Trades:', trades);
           } else {
             console.log('No trades found for user:', user.email);
@@ -132,76 +110,6 @@ useEffect(() => {
     fetchData();
   }, []);
   
-
-// useEffect(() => {
-// const fetchbalance = async () => {
-// // let { data: UserData, error } = await supabase
-// // .from('UserData')
-// // .select('balance')
-// // .eq('email', userEmail);
-// // setzeta(UserData.balance); 
-// // console.log(zeta);
-// //       alert(zeta);
-// //     }
-// let { data: UserData, error } = await supabase
-// .from("UserData")
-// .select("balance");
-// setzeta(UserData[0].balance); // Initialize zeta with balance
-// console.log(zeta);
-// }
-//     fetchbalance();
-// },[])
-// const handleBuy = async () => {
-//     console.log(`Buying ${quantity} units at price ${currentPrice}`);
-// //     let { data: UserData, error } = await supabase
-// //     .from("UserData")
-// //     .select("balance");
-// //   setzeta(UserData[0].balance); // Initialize zeta with balance
-// //   console.log(zeta);
-// //   alert(zeta);
-
-//     if (zeta >= quantity * currentPrice) {
-//       try {
-//         const { data, error } = await supabase
-//           .from("Trades")
-//           .insert([
-//             {
-//               Symbol: symbol,
-//               Quantity: quantity,
-//               buyprice: currentPrice,
-//               email: userEmail,
-//               status: "buy",
-//               total: quantity * currentPrice,
-//               profit: 0,
-//             },
-//           ])
-//           .select();
-        
-//         // Deduct purchase amount from balance
-//         let c = quantity * currentPrice;
-//         setzeta(prevZeta => prevZeta - c); // Use callback function to ensure correct state update
-
-//         // Update balance in UserData table
-//         const { data: updatedUserData, error: updateError } = await supabase
-//           .from("UserData")
-//           .update('balance', zeta)
-//           .select(); // Assuming there's only one row for user data
-        
-//         if (updateError) {
-//           throw updateError;
-//         }
-
-//       } catch (error) {
-//         alert("Error buying stock");
-//         console.log(error);
-//       }
-      
-//     } else {
-//       alert("Cannot buy less coin");
-//     }
-// };
-
-
 const handleBuy = async () => {
     console.log(`Buying ${quantity} units at price ${currentPrice}`);
   
@@ -221,17 +129,16 @@ const handleBuy = async () => {
               profit: 0,
             },
           ])
-          .single(); // Assuming only one trade is inserted
+          .single(); 
   
         if (tradeError) {
           throw tradeError;
         }
   
-        // Deduct purchase amount from balance
+       
         const updatedZeta = zeta - (quantity * currentPrice);
         setzeta(updatedZeta);
   
-        // Update balance in UserData table
         const { data: updatedUserData, error: updateError } = await supabase
           .from("UserData")
           .update({ balance: updatedZeta })
@@ -243,6 +150,7 @@ const handleBuy = async () => {
   
         // Success message
         alert("Stock bought successfully!");
+        jsConfetti.addConfetti()
   
       } catch (error) {
         alert("Error buying stock");
@@ -255,7 +163,6 @@ const handleBuy = async () => {
   
 const handlesell = async (tradeId) => {
     try {
-      // Fetch trade data
       const { data: tradeData, error: tradeError } = await supabase
         .from("Trades")
         .select("*")
@@ -266,10 +173,8 @@ const handlesell = async (tradeId) => {
         throw tradeError;
       }
   
-      // Calculate profit
       const profit = currentPrice - tradeData.buyprice;
   
-      // Update trade status and profit
       const { data: updatedTradeData, error: updateError } = await supabase
         .from("Trades")
         .update({ status: "sell", profit: profit })
@@ -279,11 +184,9 @@ const handlesell = async (tradeId) => {
         throw updateError;
       }
   
-      // Add profit to balance
       const updatedZeta = zeta + (tradeData.Quantity * currentPrice);
       setzeta(updatedZeta);
   
-      // Update balance in UserData table
       const { data: updatedUserData, error: updateUserDataError } = await supabase
         .from("UserData")
         .update({ balance: updatedZeta })
@@ -293,8 +196,8 @@ const handlesell = async (tradeId) => {
         throw updateUserDataError;
       }
   
-      // Success message
       alert("Stock sold successfully!");
+      jsConfetti.addConfetti();
   
     } catch (error) {
       alert("Error selling stock");
@@ -305,9 +208,8 @@ const handlesell = async (tradeId) => {
 
   useEffect(() => {
     axios(
-      `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1m&limit=5`
+      `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1m&limit=50`
     ).then((response) => {
-      //   const extracted_data = response.data;
       const initialData = response.data.map((kline) => ({
         time: kline[0],
         open: parseFloat(kline[1]),
@@ -318,7 +220,7 @@ const handlesell = async (tradeId) => {
 
       console.log(initialData);
       candleStickSeries.setData(initialData);
-      lineSeries.setData(lineData); // Update this line if lineData also comes from backend
+      lineSeries.setData(lineData); 
       setCurrentPrice(initialData[initialData.length - 1].close);
       console.log(currentPrice);
     });
@@ -338,7 +240,7 @@ const handlesell = async (tradeId) => {
           console.log("updated");
 
           candleStickSeries.setData(initialData);
-          lineSeries.setData(lineData); // Update this line if lineData also comes from backend
+          lineSeries.setData(lineData); 
           setCurrentPrice(initialData[initialData.length - 1].close);
           console.log(currentPrice);
         });
@@ -392,7 +294,6 @@ const handlesell = async (tradeId) => {
           return dateFormatter.format(date);
         },
         priceFormatter: (price) => {
-          // return price.toFixed(0);
           const myPrice = new Intl.NumberFormat("en-IN", {
             style: "currency",
             currency: "INR",
@@ -430,15 +331,6 @@ const handlesell = async (tradeId) => {
       tickMarkFormatter: (time, tickMarkType, locale) => {
         const date = new Date(time * 1000);
 
-        // const myDate =
-        // date.toLocaleDateString("en-IN") +
-        // " " +
-        // date.getHours() +
-        // ":" +
-        // date.getMinutes();
-
-        // return myDate;
-
         switch (tickMarkType) {
           case TickMarkType.Year:
             return date.getFullYear();
@@ -474,8 +366,6 @@ const handlesell = async (tradeId) => {
         }
       },
     });
-
-    // chart.timeScale().fitContent();
 
     const lineSeries = chart.addLineSeries();
     const candleStickSeries = chart.addCandlestickSeries();
@@ -533,15 +423,6 @@ const handlesell = async (tradeId) => {
             boxShadow: "0 0 20px rgba(0, 0, 0, 0.9)",
           }}
         ></div>
-
-        <div className=" h-48 flex flex-col whitespace-nowrap border text-sm p-2 bg-white/40 rounded-md">
-          <div>Live Market</div>
-          <div style={{ marginRight: 10 }}>OPEN: {candlePrice?.open}</div>
-          <div style={{ marginRight: 10 }}>HIGH: {candlePrice?.high}</div>
-          <div style={{ marginRight: 10 }}>LOW: {candlePrice?.low}</div>
-          <div style={{ marginRight: 10 }}>CLOSE: {candlePrice?.close}</div>
-          <div>VALUE: {linePrice?.value}</div>
-        </div>
         <div className="border p-2 grow relative overflow-y-scroll">
           <h1 className="text-center">Trades</h1>
           <div className="pl-2 grid grid-cols-5">
@@ -579,7 +460,7 @@ const handlesell = async (tradeId) => {
         </div>
       </div>
 
-      <div className="pl-20 pt-8">
+      <div className="pl-20 pt-8 flex gap-10">
         {currentPrice && <p>Current Price: {currentPrice}</p>}
         <div className="">
           <label htmlFor="quantity">Quantity:</label>
@@ -597,6 +478,16 @@ const handlesell = async (tradeId) => {
           >
             Buy
           </button>
+        </div>
+
+        <div className=" h-48 flex flex-col whitespace-nowrap border text-sm p-2 bg-white/40 rounded-md">
+        <div className="">Live Wallet Price: {zeta}</div>
+          <div>Live Market</div>
+          <div style={{ marginRight: 10 }}>OPEN: {candlePrice?.open}</div>
+          <div style={{ marginRight: 10 }}>HIGH: {candlePrice?.high}</div>
+          <div style={{ marginRight: 10 }}>LOW: {candlePrice?.low}</div>
+          <div style={{ marginRight: 10 }}>CLOSE: {candlePrice?.close}</div>
+          <div>VALUE: {linePrice?.value}</div>
         </div>
       </div>
     </div>

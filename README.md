@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Documentation
 
-First, run the development server:
+## TradeIn
+
+## Table of Contents
+
+1. [Introduction](#introduction)
+2. [Features](#features)
+
+## Introduction
+
+Welcome to the ultimate virtual trading experience! Immerse yourself in our interactive platform where learning and earning go hand-in-hand. Dive into our comprehensive tutorials, master the art of trading, and collect badges to showcase your achievements. Connect with a vibrant community of enthusiasts, engage in exhilarating challenges, and transform your skills into success. Our integrated store offers exclusive rewards, making your journey not just educational, but also rewarding. Join us and turn your trading aspirations into reality, all while having a blast! Let the adventure begin!
+
+## Features
+
+List the main features and functionalities of the project.
+
+- Virtual Trading
+- Interactive tutorials
+- Personalization
+- Seasonal League
+- Light/dark mode toggle
+- Live previews
+- Fullscreen mode
+- Cross platform
+
+
+
+
+
+
+## Installation
+
+Install my-project with npm
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  npm install my-project
+  cd my-project
+```
+    
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/Raj100/Zeta.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Go to the project directory
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+  cd Zeta
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Install dependencies
 
-## Learn More
+```bash
+  npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+Start the server
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+  npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Color Reference
 
-## Deploy on Vercel
+| Color             | Hex                                                                |
+| ----------------- | ------------------------------------------------------------------ |
+| Dark Color | ![#2b2b2b](https://via.placeholder.com/10/0a192f?text=+) #2b2b2b |
+| Light Color | ![#f7f7f7](https://via.placeholder.com/10/f8f8f8?text=+) #f7f7f7 |
+| Secondary Color | ![#3c82f6](https://via.placeholder.com/10/00b48a?text=+) #3c82f6 |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Demo
+
+Insert gif or link to demo
+
+
+## Authors
+
+- [@AtulSingh-7](https://github.com/AtulSingh-7)
+- [@Raj100](https://github.com/Raj100)
+- [@harshkh-001](https://github.com/harshkh-001)
+- [@Jsakshxm](https://github.com/Jsakshxm)
+

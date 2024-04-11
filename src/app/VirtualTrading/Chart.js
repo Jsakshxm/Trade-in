@@ -17,10 +17,9 @@ const Chart = () => {
   const [zeta, setzeta] = useState();
   const [zeta2, setzeta2] = useState();
 
-
   const initialData = [];
-  const [quantity, setQuantity] = useState(1); 
-  const [currentPrice, setCurrentPrice] = useState(null); 
+  const [quantity, setQuantity] = useState(1); // State to hold the quantity to buy
+  const [currentPrice, setCurrentPrice] = useState(null); // State to hold the current price
   const [symbol, setsymbol] = useState("BTCUSDT");
   const [userEmail, setUserEmail] = useState(null);
   const [Trades, setTrades] = useState([]);
@@ -55,6 +54,7 @@ const Chart = () => {
 useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetch user data
         const { data: { user }, error: userError } = await supabase.auth.getUser();
         if (userError) {
           throw new Error('Error fetching user data:', userError.message);
@@ -63,6 +63,7 @@ useEffect(() => {
         if (user) {
           setUserEmail(user.email);
   
+          // Fetch balance
           const { data: userData, error: balanceError } = await supabase
             .from('UserData')
             .select('balance')
@@ -75,7 +76,7 @@ useEffect(() => {
             const balance = userData[0].balance;
             console.log('Balance:', balance);
             // alert('Balance: ' + balance);
-            setzeta(balance);
+            setzeta(balance); // Initialize zeta with balance
           } else {
             console.log('No balance found for user:', user.email);
           }

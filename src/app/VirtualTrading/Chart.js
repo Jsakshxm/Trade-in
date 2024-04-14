@@ -7,6 +7,7 @@ import { AppContext } from "../../components/AppContext/AppContext";
 import { useContext } from "react";
 import supabase from "../supabase";
 import JSConfetti from 'js-confetti'
+import Swal from 'sweetalert2'
 
 
 const Chart = () => {
@@ -146,14 +147,39 @@ const handleBuy = async () => {
         if (updateError) {
           throw updateError;
         }
-          alert("Stock bought successfully!");
+        Swal.fire({
+          title: 'success!',
+          text: `Stock bought successfully! at price: ${quantity * currentPrice}`,
+          icon: 'success',
+          confirmButtonText: 'Cool'
+        })
       } catch (tradeError) {
-        alert("Error buying stock");
+        Swal.fire({
+          title: 'Error!',
+          text: 'Error buying stock',
+          icon: 'error',
+          confirmButtonText: 'Cool'
+        })
         console.error(error);
       }
     } else {
-      alert("Insufficient balance to buy stocks");
+      if(userEmail){
+      Swal.fire({
+        title: 'Error!',
+        text: 'Insufficient balance to buy stocks',
+        icon: 'warning',
+        confirmButtonText: 'Cool'
+      })
     }
+    else{
+      Swal.fire({
+        title: 'Error!',
+        text: 'Please login to buy stocks',
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+    }
+  }
   };
   
 const handlesell = async (tradeId) => {
@@ -190,12 +216,21 @@ const handlesell = async (tradeId) => {
       if (updateUserDataError) {
         throw updateUserDataError;
       }
-  
-      alert("Stock sold successfully!");
+      Swal.fire({
+        title: 'Sucess!',
+        text: `Stock sold successfully! at price ${currentPrice}`,
+        icon: 'success',
+        confirmButtonText: 'Cool'
+      })
       // jsConfetti.addConfetti();
   
     } catch (tradeError) {
-      alert("Error selling stock");
+      Swal.fire({
+        title: 'Error!',
+        text: `Error selling stock at price ${currentPrice}`,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
       console.error(error);
     }
   

@@ -12,6 +12,7 @@ import CustomizedSwitches from "../modeswitch/modeswitch";
 import { AppContext } from "../AppContext/AppContext";
 import { useContext } from "react";
 import Logo from "../../assets/logo.png";
+import Swal from 'sweetalert2'
 
 import Image from "next/image";
 const Navbar = () => {
@@ -125,20 +126,20 @@ const [loading,setLoading]=useState(true);
             <>
               <div
                
-                className={`text-slate-600 p-2 hover:text-${theme}txt text-${theme}txt  cursor-pointer relative`}
+                className={`p-2 hover:text-emerald-500 cursor-pointer relative`}
                 onMouseOver={()=>{setmenu2(1);}}
                 onMouseLeave={()=>{setmenu2(0);}}
               >
                 {userEmail}
                 <ul className={` ${menu2?"absolute":"hidden"} bg-white text-black rounded-md pt-2 `}>
-                  <Link href="/Profile" className="border-b p-4">Profile <i class="fa-solid fa-user"></i></Link>
-                  <li  onClick={logout} className="p-4">Logout <i class="fa-solid fa-arrow-right-from-bracket"></i></li>
+                  <Link href="/Profile" className="border-b p-4 ">Profile <i class="fa-solid fa-user"></i></Link>
+                  <li  onClick={logout} className="p-4 cursor-pointer">Logout <i class="fa-solid fa-arrow-right-from-bracket"></i></li>
                 </ul>
               </div>
             </>
           ) : (
             <div className="p-2 space-x-2 flex items-center justify-center">
-              <div className={`hover:text-${theme}txt`}>
+              <div className={`text-${theme}txt`}>
                 {<Link href="/Login">Login</Link>}
               </div>
             </div>

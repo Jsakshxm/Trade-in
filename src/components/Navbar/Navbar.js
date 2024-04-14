@@ -20,6 +20,7 @@ const Navbar = () => {
   const { theme, settheme } = useContext(AppContext);
   const [zeta, setzeta] = useState(0);
 const [menu2,setmenu2]=useState(0);
+const [loading,setLoading]=useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -124,7 +125,7 @@ const [menu2,setmenu2]=useState(0);
             <>
               <div
                
-                className="text-slate-600 p-2 hover:text-slate-900  cursor-pointer relative"
+                className={`text-slate-600 p-2 hover:text-${theme}txt text-${theme}txt  cursor-pointer relative`}
                 onMouseOver={()=>{setmenu2(1);}}
                 onMouseLeave={()=>{setmenu2(0);}}
               >
@@ -137,7 +138,7 @@ const [menu2,setmenu2]=useState(0);
             </>
           ) : (
             <div className="p-2 space-x-2 flex items-center justify-center">
-              <div className="hover:text-slate-800">
+              <div className={`hover:text-${theme}txt`}>
                 {<Link href="/Login">Login</Link>}
               </div>
             </div>
@@ -151,6 +152,7 @@ const [menu2,setmenu2]=useState(0);
                       settheme("dark");
                     }
                   }}
+                  checked={theme === "dark" ? true : false}
                 />
               </div>
         </div>
@@ -228,7 +230,7 @@ const [menu2,setmenu2]=useState(0);
             )}
           </div>
         </ul>
-        <div className="hidden just a trigger component bg-darkbg text-lighttxt text-darktxt bg-dark bg-light text-darkth text-lightth from-light to-light from-dark to-dark text-lightth bg-lightbg bg-darkbg"></div>
+        <div className="hidden just a trigger component bg-darkbg text-lighttxt text-darktxt bg-dark bg-light text-darkth text-lightth from-light to-light from-dark to-dark text-lightth bg-lightbg bg-darkbg text-darktxt text-lighttxt"></div>
       </div>
     </>
   );

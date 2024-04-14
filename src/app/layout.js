@@ -13,17 +13,16 @@ const inter = Inter({ subsets: ["latin"] });
 // };
 
 export default function RootLayout({ children }) {
-  const [theme, settheme] = useState("light");
+  const [theme, settheme] = useState("dark");
   return (
     <AppContext.Provider value={{ theme, settheme }}>
       <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"></link>
         <title>Tradein - Fintech Education App</title>
-        <meta name="description" content="Tradein is a leading Fintech education app that offers virtual trading competitions and learning resources to improve your trading skills. Join our competition and start trading today!">
-        <meta name="keywords" content="Tradein, Fintech, Education, App, Trading, Competition, Virtual Trading, Learning Resources">
-        <meta name="author" content="Raj Rawariya, Atul Singh, Harsh Khandelwal, Ssaksham Jain">
-        <meta name="robots" content="index, follow">
-        <link rel="canonical" href="https://tradein-lime.vercel.app/">
+        <meta name="description" content="Tradein is a leading Fintech education app that offers virtual trading competitions and learning resources to improve your trading skills. Join our competition and start trading today!"/>
+        <meta name="keywords" content="Tradein, Fintech, Education, App, Trading, Competition, Virtual Trading, Learning Resources"/>
+        <meta name="author" content="Raj Rawariya, Atul Singh, Harsh Khandelwal, Ssaksham Jain"/>
+        <meta name="robots" content="index, follow"/>
       </head>
     <html lang="en">
       <body className={inter.className}>{children}</body>

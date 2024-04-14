@@ -16,6 +16,9 @@ const Chart = () => {
   const { theme } = useContext(AppContext);
   const [zeta, setzeta] = useState();
   const [zeta2, setzeta2] = useState();
+  const [loading,setLoading]=useState(true);
+  const [loadingTrades, setLoadingTrades] = useState(true);
+
 
   const initialData = [];
   const [quantity, setQuantity] = useState(1); // State to hold the quantity to buy
@@ -44,13 +47,16 @@ const Chart = () => {
       if (Trades) {
         setTrades(Trades);
         console.log(Trades);
+        setLoadingTrades(false);
       } else {
         console.log(error);
       }
     };
     fetchData();
     console.log(zeta);
+    
   }, [currentPrice]);
+
 useEffect(() => {
     const fetchData = async () => {
       try {
@@ -94,6 +100,7 @@ useEffect(() => {
             setTrades(trades);
             // alert(trades.length);
             console.log('Trades:', trades);
+            setLoadingTrades(false);
           } else {
             console.log('No trades found for user:', user.email);
           }
@@ -145,12 +152,8 @@ const handleBuy = async () => {
         if (updateError) {
           throw updateError;
         }
-  
-        // Success message
-        alert("Stock bought successfully!");
-        jsConfetti.addConfetti()
-  
-      } catch (error) {
+          alert("Stock bought successfully!");
+      } catch (tradeError) {
         alert("Error buying stock");
         console.error(error);
       }
@@ -197,7 +200,7 @@ const handlesell = async (tradeId) => {
       alert("Stock sold successfully!");
       jsConfetti.addConfetti();
   
-    } catch (error) {
+    } catch (tradeError) {
       alert("Error selling stock");
       console.error(error);
     }
@@ -399,7 +402,6 @@ const handlesell = async (tradeId) => {
     };
 
     window.addEventListener("resize", handleResize);
-
     return () => {
       clearInterval(intervalId);
       chart.remove();
@@ -421,14 +423,19 @@ const handlesell = async (tradeId) => {
             boxShadow: "0 0 20px rgba(0, 0, 0, 0.9)",
           }}
         ></div>
-        <div className="border p-2 grow relative overflow-y-scroll">
+        <div className="border p-2 grow relative h-[400px] overflow-y-scroll">
+          <div className={`sticky top-0 bg-${theme}bg`}>
           <h1 className="text-center">Trades</h1>
           <div className="pl-2 grid grid-cols-5">
             <div>Symbol</div>
             <div>Qty</div>
             <div>Buyprice</div>
             <div>profit</div>
+            <div>Status</div>
           </div>
+          </div>
+          <div className="">
+            {loadingTrades && <p>Loading...</p>}
           <ul className="">
             {Trades.map((trade) => (
               <li className="border-b p-2 grid grid-cols-5">
@@ -455,6 +462,7 @@ const handlesell = async (tradeId) => {
               </li>
             ))}
           </ul>
+          </div>
         </div>
       </div>
 
@@ -491,5 +499,6 @@ const handlesell = async (tradeId) => {
     </div>
   );
 };
+
 
 export default Chart;

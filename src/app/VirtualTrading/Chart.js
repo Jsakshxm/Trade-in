@@ -95,14 +95,11 @@ useEffect(() => {
           if (tradesError) {
             throw new Error('Error fetching trades:', tradesError.message);
           }
-  
           if (trades) {
             setTrades(trades);
             // alert(trades.length);
             console.log('Trades:', trades);
             setLoadingTrades(false);
-          } else {
-            console.log('No trades found for user:', user.email);
           }
         } else {
           setUserEmail(null);
@@ -423,7 +420,7 @@ const handlesell = async (tradeId) => {
             boxShadow: "0 0 20px rgba(0, 0, 0, 0.9)",
           }}
         ></div>
-        <div className="border p-2 grow relative h-[400px] overflow-y-scroll">
+        <div className="border px-2 pb-2 grow relative h-[400px] overflow-y-scroll">
           <div className={`sticky top-0 bg-${theme}bg`}>
           <h1 className="text-center">Trades</h1>
           <div className="pl-2 grid grid-cols-5">
@@ -435,7 +432,7 @@ const handlesell = async (tradeId) => {
           </div>
           </div>
           <div className="">
-            {loadingTrades && <p>Loading...</p>}
+            {loadingTrades && <p className="text-center">Loading...</p>}
           <ul className="">
             {Trades.map((trade) => (
               <li className="border-b p-2 grid grid-cols-5">

@@ -60,7 +60,6 @@ const Chart = () => {
 useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch user data
         const { data: { user }, error: userError } = await supabase.auth.getUser();
         if (userError) {
           throw new Error('Error fetching user data:', userError.message);
@@ -69,7 +68,6 @@ useEffect(() => {
         if (user) {
           setUserEmail(user.email);
   
-          // Fetch balance
           const { data: userData, error: balanceError } = await supabase
             .from('UserData')
             .select('balance')
@@ -117,7 +115,6 @@ const handleBuy = async () => {
   
     if (zeta >= quantity * currentPrice) {
       try {
-        // Insert trade into Trades table
         const { data: tradeData, error: tradeError } = await supabase
           .from("Trades")
           .insert([
@@ -195,7 +192,7 @@ const handlesell = async (tradeId) => {
       }
   
       alert("Stock sold successfully!");
-      jsConfetti.addConfetti();
+      // jsConfetti.addConfetti();
   
     } catch (tradeError) {
       alert("Error selling stock");
@@ -432,7 +429,8 @@ const handlesell = async (tradeId) => {
           </div>
           </div>
           <div className="">
-            {loadingTrades && <p className="text-center">Loading...</p>}
+            {loadingTrades && <p className="text-center pt-10">Loading...</p>}
+            {!userEmail && !loadingTrades && Trades.length === 0 && <p className="text-center pt-10">No records Found</p>}
           <ul className="">
             {Trades.map((trade) => (
               <li className="border-b p-2 grid grid-cols-5">
@@ -485,12 +483,17 @@ const handlesell = async (tradeId) => {
 
         <div className=" h-48 flex flex-col whitespace-nowrap border text-sm p-2 bg-white/40 rounded-md">
         <div className="">Live Wallet Price: {zeta}</div>
-          <div>Live Market</div>
+          <div>Live Candlestick Data</div>
+          {!candlePrice && <p>Analysing...</p>}
+          {candlePrice && 
+          <>
           <div style={{ marginRight: 10 }}>OPEN: {candlePrice?.open}</div>
           <div style={{ marginRight: 10 }}>HIGH: {candlePrice?.high}</div>
           <div style={{ marginRight: 10 }}>LOW: {candlePrice?.low}</div>
           <div style={{ marginRight: 10 }}>CLOSE: {candlePrice?.close}</div>
           <div>VALUE: {linePrice?.value}</div>
+          </>
+}
         </div>
       </div>
     </div>

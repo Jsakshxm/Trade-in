@@ -436,7 +436,7 @@ const handlesell = async (tradeId) => {
                 <div>{trade.Quantity}</div>
                 <div>{trade.buyprice}</div>
                 <div>
-                  {Math.round((trade.buyprice - currentPrice) * 100) / 100}
+                  {Math.round((currentPrice - trade.buyprice) * 100) / 100}
                 </div>
                 <div>
                   {" "}

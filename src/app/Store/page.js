@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Pile from '../../assets/pile.jpeg';
 import Chest from '../../assets/chest.jpeg';
 import Bag from '../../assets/bag.jpeg';
-import Shower from '../../assets/shower.jpeg';
+import Shower from '../../assets/Shower.jpeg';
 import Navbar from '@/components/Navbar/Navbar';
 
 

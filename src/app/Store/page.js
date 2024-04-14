@@ -19,7 +19,7 @@ const Main = () => {
                 <div className="flex  justify-center">
                     <div className="w-64 h-64 border2  mx-10 my-10">
                         <div>
-                            <Image src={Pile} width={300} height={300} alt='Pile'></Image>
+                            <Image src={Pile} width={300} height={300} alt='Pile of zeta coins'></Image>
                         </div>
                         <div >
                             <p className='text-center my-2 border border-solid border-black-400'>Pile Of ZetaCoins</p>
@@ -34,27 +34,27 @@ const Main = () => {
                     </div>
                     <div className="w-64 h-64 border2  mx-10 my-10">
                         <div>
-                            <Image src={Chest} width={300} height={300} alt='Chest'></Image>
+                            <Image src={Chest} width={300} height={300} alt='Chest of Zeta coins'></Image>
                         </div>
                         <div >
-                            <p className='text-center my-2 border border-solid border-black-400'>Pile Of ZetaCoins</p>
-                            <p className='text-center my-2 border border-solid border-black-400'>10000 Zeta Coins</p>
-                            <div  className='text-center my-2 border border-solid border-black-400' >
-                            <button>₹10</button>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <div className="w-64 h-64 border2  mx-10 my-10">
-                        <div>
-                            <Image src={Bag} width={300} height={300} alt='Pile'></Image>
-                        </div>
-                        <div >
-                            <p className='text-center my-2 border border-solid border-black-400'>Pile Of ZetaCoins</p>
+                            <p className='text-center my-2 border border-solid border-black-400'>Chest Of ZetaCoins</p>
                             <p className='text-center my-2 border border-solid border-black-400'>100000 Zeta Coins</p>
                             <div  className='text-center my-2 border border-solid border-black-400' >
-                            <button>₹10</button>
+                            <button>₹100</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div className="w-64 h-64 border2  mx-10 my-10">
+                        <div>
+                            <Image src={Bag} width={300} height={300} alt='Bag of zeta coins'></Image>
+                        </div>
+                        <div >
+                            <p className='text-center my-2 border border-solid border-black-400'>Bag Of ZetaCoins</p>
+                            <p className='text-center my-2 border border-solid border-black-400'>100000 Zeta Coins</p>
+                            <div  className='text-center my-2 border border-solid border-black-400' >
+                            <button>₹500</button>
                             </div>
                         </div>
 
@@ -65,13 +65,13 @@ const Main = () => {
                 <div className="flex  justify-center my-20">
                     <div className="w-64 h-64 border2  mx-10 my-10">
                         <div>
-                            <Image src={Shower} width={300} height={300} alt='Pile'></Image>
+                            <Image src={Shower} width={300} height={300} alt='Shower of zeta coins'></Image>
                         </div>
                         <div >
-                            <p className='text-center my-2 border border-solid border-black-400'>Pile Of ZetaCoins</p>
+                            <p className='text-center my-2 border border-solid border-black-400'>Shower Of ZetaCoins</p>
                             <p className='text-center my-2 border border-solid border-black-400'>1000000 Zeta Coins</p>
                             <div  className='text-center my-2 border border-solid border-black-400' >
-                            <button>₹10</button>
+                            <button>₹1000</button>
                             </div>
                         </div>
 

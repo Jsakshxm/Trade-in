@@ -84,8 +84,8 @@ export default function Home() {
     <p className="text-center px-4 lg:px-32"> Welcome to the ultimate virtual trading experience! Immerse yourself in our interactive platform where learning and earning go hand-in-hand. Dive into our comprehensive tutorials, master the art of trading, and collect badges to showcase your achievements. Connect with a vibrant community of enthusiasts, engage in exhilarating challenges, and transform your skills into success. Our integrated store offers exclusive rewards, making your journey not just educational, but also rewarding. Join us and turn your trading aspirations into reality, all while having a blast! Let the adventure begin!</p>
 
     <div className="spacer bg"></div>
-      <div className={`pt-10 flex flex-col items-center justify-center w-full p-4 lg:p-10 bg-[#0066FF]`}>
-     <TradingViewWidget className=""></TradingViewWidget>
+      <div className={`pt-10 hidden md:flex flex-col items-center justify-center w-full p-4 lg:p-10 bg-[#0066FF]`}>
+     <TradingViewWidget></TradingViewWidget>
       </div>
       <div className="bg2"></div>
 

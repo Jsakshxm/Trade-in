@@ -113,7 +113,7 @@ const Main = () => {
             </div>
 
             <div className="grid cols-span-2 border rounded-lg p-2">
-              <h1 className="text-center">Leaderboards</h1>
+              <h1 className="text-center">Leaderboard</h1>
               {/* Render leaderboards data here */}
               <div>
                 <div className="grid grid-cols-2">
@@ -129,7 +129,7 @@ const Main = () => {
               </div>
             </div>
             <div className="grid cols-span-2  border rounded-lg p-2">
-              <h1 className="center">Educational Leaderboards</h1>
+              <h1 className="text-center">Educational Leaderboard</h1>
               <div className="grid grid-cols-2">
                 <p>Name</p>
                 <p>XP</p>
@@ -143,12 +143,12 @@ const Main = () => {
             </div>
           </div>
 
-          <div className="w-90 h-72 border-2 bg-red-400 mx-10 my-10 justify-center items-center">
+          <div className="flex flex-col border-2 bg-red-400 mx-10 my-10 justify-center items-center p-10">
             <div>
-              <h3 className="text-center">batches</h3>
+              <h3 className="text-center text-lg">Batches</h3>
             </div>
-            <div className="flex justify-center mt-5 px-5">
-              <div className="flex items-center">
+            <div className="h-52 w-full mt-5 lg:px-5 overflow-hidden overflow-x-scroll">
+              <div className="flex h-full lg:justify-center items-center gap-10 overflow-scroll">
                 <div className="w-32 h-32 mx-2">
                   <Image
                     src={batch_1}

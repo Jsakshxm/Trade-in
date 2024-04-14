@@ -12,7 +12,7 @@ import CustomizedSwitches from "../modeswitch/modeswitch";
 import { AppContext } from "../AppContext/AppContext";
 import { useContext } from "react";
 import Logo from "../../assets/logo.png";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 import Image from "next/image";
 const Navbar = () => {
@@ -20,8 +20,8 @@ const Navbar = () => {
   const [meuopen, setmenuopen] = useState(false);
   const { theme, settheme } = useContext(AppContext);
   const [zeta, setzeta] = useState(0);
-const [menu2,setmenu2]=useState(0);
-const [loading,setLoading]=useState(true);
+  const [menu2, setmenu2] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -51,44 +51,43 @@ const [loading,setLoading]=useState(true);
     }
   };
 
-
-
-
   useEffect(() => {
     const fetchData = async () => {
       // Fetch user data
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (user) {
         setUserEmail(user.email);
         // Fetch balance only if user email is available
         const { data: UserData, error } = await supabase
-          .from('UserData')
-          .select('balance')
-          .eq('email', user.email);
+          .from("UserData")
+          .select("balance")
+          .eq("email", user.email);
         if (error) {
-          console.error('Error fetching balance:', error.message);
+          console.error("Error fetching balance:", error.message);
           return;
         }
         // If data is fetched successfully, log and alert the balance
         if (UserData.length > 0) {
           const balance = UserData[0].balance;
-          console.log('Balance:', balance);
+          console.log("Balance:", balance);
           setzeta(balance);
         } else {
-          console.log('No balance found for user:', user.email);
+          console.log("No balance found for user:", user.email);
         }
       } else {
         setUserEmail(null);
       }
     };
-  
+
     fetchData();
   }, []);
-  
+
   return (
     <>
       <header
-        className={`fixed flex w-full justify-between items-center px-10 lg:px-24 py-4 lg:py-8  dark:bg-slate-800 text-${theme}txt ${
+        className={`fixed flex w-full justify-between items-center px-4 lg:px-24 py-4 lg:py-8  dark:bg-slate-800 text-${theme}txt ${
           theme === "dark"
             ? "bg-gradient-to-r  from-40% from-slate-800 via-slate-700 to-60% to-slate-800 "
             : " bg-gradient-to-r  from-[#baecee] via-yellow-100 to-[#baecee] shadow-lg"
@@ -98,8 +97,8 @@ const [loading,setLoading]=useState(true);
           Tradein
         </Link>
         <ul className="hidden lg:flex space-x-5 ">
-        <li className="hover:text-emerald-300 p-2">
-        <Link href="/Education">Education</Link>
+          <li className="hover:text-emerald-300 p-2">
+            <Link href="/Education">Education</Link>
           </li>
           <li className="hover:text-emerald-300 p-2">
             {" "}
@@ -110,30 +109,43 @@ const [loading,setLoading]=useState(true);
             <Link href="/chat">Community chat</Link>
           </li>
         </ul>
-      <div className="hidden lg:flex items-center space-x-2 ">
-      {userEmail && (
-        <>
-            <div className={`flex items-center`}>
-            <Image className="w-4" src={Logo} alt="Logo" />
-            {zeta}
-            </div>
-              <div className="">
-                <Link href="/Store"><i class="fa-solid fa-store text-xl"></i> Store </Link>
+        <div className="hidden lg:flex items-center space-x-2 ">
+          {userEmail && (
+            <>
+              <div className={`flex items-center`}>
+                <Image className="w-4" src={Logo} alt="Logo" />
+                {zeta}
               </div>
-              </>
-              )}
+              <div className="">
+                <Link href="/Store">
+                  <i class="fa-solid fa-store text-xl"></i> Store{" "}
+                </Link>
+              </div>
+            </>
+          )}
           {userEmail ? (
             <>
               <div
-               
                 className={`p-2 hover:text-emerald-500 cursor-pointer relative`}
-                onMouseOver={()=>{setmenu2(1);}}
-                onMouseLeave={()=>{setmenu2(0);}}
+                onMouseOver={() => {
+                  setmenu2(1);
+                }}
+                onMouseLeave={() => {
+                  setmenu2(0);
+                }}
               >
                 {userEmail}
-                <ul className={` ${menu2?"absolute":"hidden"} bg-white text-black rounded-md pt-2 `}>
-                  <Link href="/Profile" className="border-b p-4 ">Profile <i class="fa-solid fa-user"></i></Link>
-                  <li  onClick={logout} className="p-4 cursor-pointer">Logout <i class="fa-solid fa-arrow-right-from-bracket"></i></li>
+                <ul
+                  className={` ${
+                    menu2 ? "absolute" : "hidden"
+                  } bg-white text-black rounded-md pt-2 `}
+                >
+                  <Link href="/Profile" className="border-b p-4 ">
+                    Profile <i class="fa-solid fa-user"></i>
+                  </Link>
+                  <li onClick={logout} className="p-4 cursor-pointer">
+                    Logout <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                  </li>
                 </ul>
               </div>
             </>
@@ -144,26 +156,42 @@ const [loading,setLoading]=useState(true);
               </div>
             </div>
           )}
-              <div>
-                <CustomizedSwitches
-                  onChange={() => {
-                    if (theme === "dark") {
-                      settheme("light");
-                    } else {
-                      settheme("dark");
-                    }
-                  }}
-                  checked={theme === "dark" ? true : false}
-                />
-              </div>
+          <div>
+            <CustomizedSwitches
+              onChange={() => {
+                if (theme === "dark") {
+                  settheme("light");
+                } else {
+                  settheme("dark");
+                }
+              }}
+              checked={theme === "dark" ? true : false}
+            />
+          </div>
         </div>
 
-        <div onClick={handlemenu} className="lg:hidden text-2xl p-2">
-          <i className={`fa-solid ${meuopen ? "fa-xmark" : "fa-bars"}`}></i>
+        <div className="lg:hidden flex gap-4 items-center">
+          {userEmail ? (
+            <div className=" flex items-center gap-1">
+              <div className="text-2xl">
+                <i class="fa-regular fa-circle-user"></i>
+              </div>
+              <div className="text-[10px]">
+                <p>{userEmail}</p>
+                <p>{zeta}</p>
+              </div>
+            </div>
+          ) : (
+            <Link href="/Login">Login</Link>
+          )}
+          <div onClick={handlemenu} className="lg:hidden text-2xl">
+            <i className={`fa-solid ${meuopen ? "fa-xmark" : "fa-bars"}`}></i>
+          </div>
         </div>
       </header>
+
       <div
-        className={`absolute w-full bg-${theme}bg z-[10] transition duration-300 lg:hidden ${
+        className={`fixed w-full text-${theme}txt bg-${theme}bg z-[10] transition duration-300 lg:hidden  ${
           meuopen ? "" : "-translate-y-full"
         }`}
       >
@@ -181,35 +209,45 @@ const [loading,setLoading]=useState(true);
             }`}
           >
             {" "}
-            <Link href="/Eduction"><i class="fa-solid fa-graduation-cap"></i> Eduction</Link>
+            <Link href="/Eduction">
+              <i class="fa-solid fa-graduation-cap"></i> Eduction
+            </Link>
           </li>
           <li
             className={`hover:text-yellow-300 p-2  transition duration-[600ms] ${
               meuopen ? "" : "-translate-x-full"
             }`}
           >
-            <Link href="/VirtualTrading"><i class="fa-solid fa-arrow-trend-up"></i>  VirtualTrading</Link>
+            <Link href="/VirtualTrading">
+              <i class="fa-solid fa-arrow-trend-up"></i> VirtualTrading
+            </Link>
           </li>
           <li
             className={`hover:text-yellow-300 p-2  transition duration-[750ms] ${
               meuopen ? "" : "-translate-x-full"
             }`}
           >
-            <Link href="/Store"><i class="fa-solid fa-store"></i> Store</Link>
+            <Link href="/Store">
+              <i class="fa-solid fa-store"></i> Store
+            </Link>
           </li>
           <li
             className={`hover:text-yellow-300 p-2  transition duration-[900ms] ${
               meuopen ? "" : "-translate-x-full"
             }`}
           >
-            <Link href="/chat"><i class="fa-solid fa-users"></i>  Community</Link>
+            <Link href="/chat">
+              <i class="fa-solid fa-users"></i> Community
+            </Link>
           </li>
           <li
             className={`hover:text-red-300 p-2  transition duration-[1050ms] ${
               meuopen ? "" : "-translate-x-full"
             }`}
           >
-            <Link href="/Profile"><i class="fa-solid fa-user"></i>  Profile</Link>
+            <Link href="/Profile">
+              <i class="fa-solid fa-user"></i> Profile
+            </Link>
           </li>
           <div className="hidden lg:block">
             {userEmail ? (

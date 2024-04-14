@@ -18,6 +18,7 @@ const Main = () => {
   const [leaderboards, setLeaderboards] = useState([]);
   const [thisuserdata, setThisUserData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loading2, setLoading2] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,6 +83,7 @@ const Main = () => {
         .from("UserData")
         .select("*");
       if (UserData) {
+        UserData.sort((a, b) => b.balance - a.balance);
         setLeaderboards(UserData);
         setLoading(false);
       } else {
@@ -89,13 +91,12 @@ const Main = () => {
       }
     };
     fetchData();
-    setLoading(false);
   }, []);
   return (
     <>
       <Navbar />
-      {loading ? (
-        <h1>Loading...</h1>
+      {(loading && loading2) ? (
+        <h1 className="pt-32 h-[500px] text-center">Loading...</h1>
       ) : (
         <>
           <div
